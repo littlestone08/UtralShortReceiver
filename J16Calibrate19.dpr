@@ -20,7 +20,12 @@ uses
   u_frameExamineItemUIBase in 'u_frameExamineItemUIBase.pas' {FrameCustomExamineItemUI: TFrame},
   u_frameExamineItemUI in 'u_frameExamineItemUI.pas' {ExamineItemDefaultControl: TFrame},
   u_FreqCtrl in 'u_FreqCtrl.pas',
-  u_ExamineReg in 'u_ExamineReg.pas';
+  u_ExamineReg in 'u_ExamineReg.pas',
+  u_J08Task in 'Plugin\J16\u_J08Task.pas',
+  u_J08WeakGlobal in 'Plugin\J16\u_J08WeakGlobal.pas',
+  BT_WeakGlobal in 'Plugin\J16\BT_WeakGlobal.pas',
+  u_J08TaskIntf in 'Plugin\J16\u_J08TaskIntf.pas',
+  BT_TaskIntf in 'Plugin\J16\BT_TaskIntf.pas';
 
 {$R *.res}
 

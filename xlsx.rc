@@ -1,0 +1,7 @@
+TEMPLATE MYFILE "Res\超短波信道测试表格.xlsx"
+CHANGEINFO MYFILE "u_ChangeLog.txt"
+
+
+
+
+

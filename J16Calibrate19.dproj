@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{26fab71b-2243-4df5-bc6c-9e7450c1b999}</ProjectGuid>
+    <MainSource>J16Calibrate19.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug_Emu</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>out\debug\J16Calibrate19.exe</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE;BOOT_EXT_APP</DCC_Define>
+    <DCC_UnitSearchPath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;D:\CodeGear\Teechart806src\TeeTree\Compiled\Delphi11\Lib;D:\CodeGear\Teechart806src\Sources\Compiled\Delphi11\Lib;.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOALT1</DCC_UnitSearchPath>
+    <DCC_ResourcePath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;D:\CodeGear\Teechart806src\TeeTree\Compiled\Delphi11\Lib;D:\CodeGear\Teechart806src\Sources\Compiled\Delphi11\Lib;.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOALT1</DCC_ResourcePath>
+    <DCC_ObjPath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;D:\CodeGear\Teechart806src\TeeTree\Compiled\Delphi11\Lib;D:\CodeGear\Teechart806src\Sources\Compiled\Delphi11\Lib;.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOALT1</DCC_ObjPath>
+    <DCC_IncludePath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;D:\CodeGear\Teechart806src\TeeTree\Compiled\Delphi11\Lib;D:\CodeGear\Teechart806src\Sources\Compiled\Delphi11\Lib;.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOALT1</DCC_IncludePath>
+    <DCC_ExeOutput>.\out\release</DCC_ExeOutput>
+    <DCC_DcuOutput>.\dcu\release</DCC_DcuOutput>
+    <DCC_ObjOutput>.\dcu\release</DCC_ObjOutput>
+    <DCC_HppOutput>.\dcu\release</DCC_HppOutput>
+    <DCC_RemoteDebug>True</DCC_RemoteDebug>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_Define>_DEBUG;_TRIP_GPIB_CMD;_BOOT_EXT_APP</DCC_Define>
+    <DCC_ExeOutput>.\out\debug</DCC_ExeOutput>
+    <DCC_DcuOutput>.\dcu\debug</DCC_DcuOutput>
+    <DCC_ObjOutput>.\dcu\debug</DCC_ObjOutput>
+    <DCC_HppOutput>.\dcu\debug</DCC_HppOutput>
+    <DCC_UnitSearchPath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOAlt1</DCC_UnitSearchPath>
+    <DCC_ResourcePath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOAlt1</DCC_ResourcePath>
+    <DCC_ObjPath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOAlt1</DCC_ObjPath>
+    <DCC_IncludePath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO3;.\LOAlt1</DCC_IncludePath>
+    <DCC_RemoteDebug>True</DCC_RemoteDebug>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Emu|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_RemoteDebug>True</DCC_RemoteDebug>
+    <DCC_ExeOutput>.\out\debug</DCC_ExeOutput>
+    <DCC_DcuOutput>.\dcu\debug</DCC_DcuOutput>
+    <DCC_ObjOutput>.\dcu\debug</DCC_ObjOutput>
+    <DCC_HppOutput>.\dcu\debug</DCC_HppOutput>
+    <DCC_UnitSearchPath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO;D:\WORK180507\UtralShortReceiver\LOAlt1;D:\WORK180507\UtralShortReceiver\LO</DCC_UnitSearchPath>
+    <DCC_ResourcePath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO;D:\WORK180507\UtralShortReceiver\LOAlt1;D:\WORK180507\UtralShortReceiver\LO</DCC_ResourcePath>
+    <DCC_ObjPath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO;D:\WORK180507\UtralShortReceiver\LOAlt1;D:\WORK180507\UtralShortReceiver\LO</DCC_ObjPath>
+    <DCC_IncludePath>.\SWCtrl;D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;C:\Documents and Settings\mei\My Documents;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;.\LO1;.\LO2;.\LO;D:\WORK180507\UtralShortReceiver\LOAlt1;D:\WORK180507\UtralShortReceiver\LO</DCC_IncludePath>
+    <DCC_Define>DEBUG;TRIP_GPIB_CMD;BOOT_EXT_APP</DCC_Define>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="DebugSourceDirs">D:\CodeGear\nrComm Lib\Source\</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">0</VersionInfo><VersionInfo Name="MinorVer">1</VersionInfo><VersionInfo Name="Release">1</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">2052</VersionInfo><VersionInfo Name="CodePage">936</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">0.1.1.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys><VersionInfoKeys Name="LastCompiledTime">2019-06-12 16:44:21</VersionInfoKeys></VersionInfoKeys><Excluded_Packages>
+      <Excluded_Packages Name="$(BDS)\bin\bcboffice2k100.bpl">CodeGear C++Builder Office 2000 Servers Package</Excluded_Packages>
+      <Excluded_Packages Name="$(BDS)\bin\bcbofficexp100.bpl">CodeGear C++Builder Office XP Servers Package</Excluded_Packages>
+      <Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+      <Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\CodeGear\acs-master\packages\lib\dpkACS.bpl">File D:\CodeGear\acs-master\packages\lib\dpkACS.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="E:\IC卡调试程序\Package1.bpl">File E:\IC卡调试程序\Package1.bpl not found</Excluded_Packages>
+    </Excluded_Packages><Source><Source Name="MainSource">J16Calibrate19.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="J16Calibrate19.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <RcCompile Include="xlsx.rc">
+      <Form>xlsx.res</Form>
+    </RcCompile>
+    <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448.pas" />
+    <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448_Status.pas" />
+    <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\U_GPIB_DEV2.pas" />
+    <DCCReference Include="uart\u_FrameUart.pas">
+      <Form>frameUart</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="Upgrader\u_AutoUpgraderEditorCrack.pas">
+      <Form>AutoUpgraderEditorCrack</Form>
+    </DCCReference>
+    <DCCReference Include="Upgrader\u_dmUpgrade.pas">
+      <Form>dmUpgrade</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="Upgrader\u_Version.pas" />
+    <DCCReference Include="u_CommonDef.pas" />
+    <DCCReference Include="u_ExamineGlobal.pas" />
+    <DCCReference Include="u_ExamineImp.pas" />
+    <DCCReference Include="u_ExamineReg.pas" />
+    <DCCReference Include="u_frameExamineItemUI.pas">
+      <Form>ExamineItemDefaultControl</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="u_frameExamineItemUIBase.pas">
+      <Form>FrameCustomExamineItemUI</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="u_frameExamineList.pas">
+      <Form>frameExamineList</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="u_frameMain.pas">
+      <Form>frameMain</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="u_FreqCtrl.pas" />
+    <DCCReference Include="u_Main.pas">
+      <Form>Form1</Form>
+    </DCCReference>
+  </ItemGroup>
+</Project>

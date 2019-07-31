@@ -25,7 +25,8 @@ uses
   u_J08WeakGlobal in 'Plugin\J16\u_J08WeakGlobal.pas',
   BT_WeakGlobal in 'Plugin\J16\BT_WeakGlobal.pas',
   u_J08TaskIntf in 'Plugin\J16\u_J08TaskIntf.pas',
-  BT_TaskIntf in 'Plugin\J16\BT_TaskIntf.pas';
+  BT_TaskIntf in 'Plugin\J16\BT_TaskIntf.pas',
+  u_J16Utils in 'Plugin\J16\u_J16Utils.pas';
 
 {$R *.res}
 

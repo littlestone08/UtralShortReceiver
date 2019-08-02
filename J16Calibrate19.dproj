@@ -71,16 +71,21 @@
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
     <RcCompile Include="xlsx.rc">
-      <Form>'xlsx.res'</Form>
+      <Form>xlsx.res</Form>
     </RcCompile>
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448.pas" />
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448_Status.pas" />
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\U_GPIB_DEV2.pas" />
     <DCCReference Include="Plugin\J16\BT_TaskIntf.pas" />
     <DCCReference Include="Plugin\J16\BT_WeakGlobal.pas" />
+    <DCCReference Include="Plugin\J16\u_frameJ16SlopeCalibrateMeasureUI.pas">
+      <Form>FrameCustomExamineItemUI1</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
     <DCCReference Include="Plugin\J16\u_J08Task.pas" />
     <DCCReference Include="Plugin\J16\u_J08TaskIntf.pas" />
     <DCCReference Include="Plugin\J16\u_J08WeakGlobal.pas" />
+    <DCCReference Include="Plugin\J16\u_J16SlopeCalibrateMeasureImp.pas" />
     <DCCReference Include="Plugin\J16\u_J16Utils.pas" />
     <DCCReference Include="uart\u_FrameUart.pas">
       <Form>frameUart</Form>

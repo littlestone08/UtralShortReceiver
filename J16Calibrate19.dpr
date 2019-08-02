@@ -26,7 +26,9 @@ uses
   BT_WeakGlobal in 'Plugin\J16\BT_WeakGlobal.pas',
   u_J08TaskIntf in 'Plugin\J16\u_J08TaskIntf.pas',
   BT_TaskIntf in 'Plugin\J16\BT_TaskIntf.pas',
-  u_J16Utils in 'Plugin\J16\u_J16Utils.pas';
+  u_J16Utils in 'Plugin\J16\u_J16Utils.pas',
+  u_J16SlopeCalibrateMeasureImp in 'Plugin\J16\u_J16SlopeCalibrateMeasureImp.pas',
+  u_frameJ16SlopeCalibrateMeasureUI in 'Plugin\J16\u_frameJ16SlopeCalibrateMeasureUI.pas' {FrameCustomExamineItemUI1: TFrame};
 
 {$R *.res}
 

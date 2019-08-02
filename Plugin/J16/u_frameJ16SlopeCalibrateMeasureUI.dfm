@@ -1,0 +1,2 @@
+inherited FrameCustomExamineItemUI1: TFrameCustomExamineItemUI1
+end

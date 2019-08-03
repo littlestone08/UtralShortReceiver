@@ -2,7 +2,7 @@ unit u_J16SlopeCalibrateMeasureImp;
 
 interface
 uses
-  Classes, SysUtils, u_ExamineImp;
+  Classes, SysUtils, u_ExamineImp, u_J08TaskIntf, u_J08Task;
 type
   TSlopeCalibrateMeasure = Class(TCustomExamineItem)
   Private
@@ -23,11 +23,31 @@ uses
 procedure TSlopeCalibrateMeasure.DoProcess;
 var
   SG: ISignalGenerator;
+  Radio: IJ08Receiver;
+  bid, pid, sid: integer;
 begin
   inherited;
-  //AM斜率测试
+   //------------------
+   //初始化设备
+   //------------------
 
+  SG:= TMG36XX.Create;
+  With SG do
+  begin
+    pid:= 3;
+    Iden:= 'SG';
+    LoadInstrumentParam(bid, pid, sid);
+    Connnect(bid, pid, sid);
+  end;
+  Radio:=  TJ08Receiver.Create;
+  //-------------------
+  //AM斜率测试
+  //-------------------
   //打开接收机，进入非修正模式
+  
+
+  //打开信号源，设置为15M， -60dB 单音
+
 end;
 
 procedure TSlopeCalibrateMeasure.Init;

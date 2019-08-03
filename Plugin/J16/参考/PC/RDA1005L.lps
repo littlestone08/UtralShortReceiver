@@ -4,14 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="45">
+    <Units Count="68">
       <Unit0>
         <Filename Value="RDA1005L.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="26" Y="9"/>
-        <UsageCount Value="88"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="38" Y="5"/>
+        <UsageCount Value="89"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -19,12 +18,10 @@
         <ComponentName Value="frmUart"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="346"/>
-        <CursorPos X="34" Y="365"/>
-        <UsageCount Value="88"/>
-        <LoadedDesigner Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="35" Y="14"/>
+        <UsageCount Value="89"/>
+        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="PlumUtils.pas"/>
@@ -32,7 +29,6 @@
         <TopLine Value="100"/>
         <CursorPos X="76" Y="122"/>
         <UsageCount Value="13"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
         <Filename Value="C:\codetyphon\typhon\components\BaseUtils\lazloggerbase.pas"/>
@@ -323,34 +319,176 @@
       </Unit42>
       <Unit43>
         <Filename Value="D:\lazarus\components\addone_compoents\pl_Synapse\lazarus_synapse.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="22"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit43>
       <Unit44>
         <Filename Value="d:\lazarus\components\addone_compoents\pl_Synapse\source\ssl_cryptlib.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="147"/>
         <CursorPos X="52" Y="123"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit44>
+      <Unit45>
+        <Filename Value="D:\lazarus\components\addone_compoents\synalist-code\synaser.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1949"/>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="D:\lazarus\components\synalist-code\clamsend.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="29" Y="3"/>
+        <UsageCount Value="10"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="d:\lazarus\components\synalist-code\synaser.pas"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="204"/>
+        <CursorPos X="32" Y="213"/>
+        <UsageCount Value="10"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="D:\lazarus\components\synalist-code\laz_synapse.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="d:\lazarus\components\synalist-code\sntpsend.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="88"/>
+        <UsageCount Value="10"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="d:\lazarus\components\synalist-code\imapsend.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="C:\codetyphon\typhon\components\pl_SynapseVS\pl_synapsevs.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="23" Y="15"/>
+        <UsageCount Value="10"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="d:\lazarus\components\pl_SynapseVS\pl_synapsevs.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="11"/>
+        <UsageCount Value="10"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="d:\lazarus\components\pl_SynapseVS\source\allsynapsevsregister.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="26" Y="19"/>
+        <UsageCount Value="10"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="d:\lazarus\components\pl_SynapseVS\source\vscomportsetup.frm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="D:\lazarus\lcl\lclproc.pas"/>
+        <UnitName Value="LCLProc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="11"/>
+        <CursorPos X="46" Y="34"/>
+        <UsageCount Value="10"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="D:\lazarus\lcl\lclrescache.pas"/>
+        <UnitName Value="LCLResCache"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="8"/>
+        <CursorPos X="24" Y="26"/>
+        <UsageCount Value="10"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="d:\lazarus\components\pl_SynapseVS\source\vscomport.pas"/>
+        <UnitName Value="vsComPort"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6"/>
+        <CursorPos X="43" Y="18"/>
+        <UsageCount Value="10"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="d:\lazarus\components\pl_SynapseVS\source\vscomportsetup.pas"/>
+        <UnitName Value="vsComPortsetup"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="25"/>
+        <CursorPos X="26" Y="38"/>
+        <UsageCount Value="10"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="d:\lazarus\components\pl_SynapseVS\source\vsauthentication.pas"/>
+        <UnitName Value="vsAuthentication"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="D:\lazarus\components\addones\pl_Synapse\source\ssl_cryptlib.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="72"/>
+        <CursorPos X="3" Y="90"/>
+        <UsageCount Value="10"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="D:\lazarus\components\addones\pl_Synapse\source\sntpsend.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="320"/>
+        <CursorPos X="17" Y="331"/>
+        <UsageCount Value="10"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="D:\lazarus\components\addones\pl_Synapse\source\snmpsend.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="541"/>
+        <CursorPos X="15" Y="557"/>
+        <UsageCount Value="10"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="D:\lazarus\components\addones\pl_Synapse\source\ssl_libssh2.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="54"/>
+        <CursorPos X="3" Y="72"/>
+        <UsageCount Value="10"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="D:\lazarus\components\addones\pl_Synapse\source\tzutil.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="553"/>
+        <CursorPos X="45" Y="570"/>
+        <UsageCount Value="10"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="D:\lazarus\components\addones\pl_SynapseVS\source\allsynapsevsregister.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="16"/>
+        <UsageCount Value="10"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="D:\lazarus\components\addones\pl_SynapseVS\source\allsynapsevsregister.res"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="D:\lazarus\components\addones\pl_SynapseVS\source\vscomportsetup.pas"/>
+        <UnitName Value="vsComPortsetup"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="25"/>
+        <CursorPos Y="58"/>
+        <UsageCount Value="10"/>
+      </Unit67>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="1">
       <Position1>
-        <Filename Value="RDA1005L.lpr"/>
-        <Caret Line="9" Column="26"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="7" Column="56"/>
       </Position1>
-      <Position2>
-        <Filename Value="D:\lazarus\components\addone_compoents\pl_Synapse\lazarus_synapse.pas"/>
-        <Caret Line="16" Column="57"/>
-      </Position2>
-      <Position3>
-        <Filename Value="D:\lazarus\components\addone_compoents\pl_Synapse\lazarus_synapse.pas"/>
-        <Caret Line="22" Column="13"/>
-      </Position3>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

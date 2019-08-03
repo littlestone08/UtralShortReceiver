@@ -1,11 +1,11 @@
-unit main;
+﻿unit main;
 
 interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   ComCtrls, StdCtrls, ActnList, ExtCtrls, PlumLogFile, vsComPort, vsComPortBase,
-   LazFileUtils, PlumUtils, LCLType;
+   LazFileUtils, PlumUtils, LCLType, ToolWin;
 
 type
     PSetCoffPackate = ^TSetCoffPackate;
@@ -96,7 +96,6 @@ type
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
-    vsComPort1: TvsComPort;
     procedure actCloseExecute(Sender: TObject);
     procedure actOpenExecute(Sender: TObject);
     procedure actSerialUpdateInfo(Sender: TObject);
@@ -106,12 +105,8 @@ type
     procedure btnSetCoffValidClick(Sender: TObject);
     procedure btnSetReportSelClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
-    procedure fsedtMainAttenChange(Sender: TObject);
-    procedure MaskEdit1Change(Sender: TObject);
-    procedure Memo1Change(Sender: TObject);
     procedure Memo1DblClick(Sender: TObject);
     procedure actSetupSerialExecute(Sender: TObject);
-    procedure Bevel2ChangeBounds(Sender: TObject);
     procedure FormCreate(Sender: TObject);
 
     procedure rbgSubAttensClick(Sender: TObject);
@@ -144,7 +139,7 @@ uses
   //Windows,
   DateUtils, LazLogger, synaser, strUtils, LazUTF8; //MultiLog;
 
-{$R *.lfm}
+{$R *.dfm}
 
 Procedure ReverseCoffsByteOrder(var Coffs: TCoffs);
 var
@@ -280,13 +275,6 @@ begin
   self.vsComPort1.ShowSetupDialog;
 end;
 
-procedure TfrmUart.Bevel2ChangeBounds(Sender: TObject);
-begin
-
-end;
-
-
-
 procedure TfrmUart.actSerialUpdateInfo(Sender: TObject);
 begin
   actOpen.Enabled:= Not vsComPort1.Active;
@@ -367,23 +355,6 @@ end;
 procedure TfrmUart.Button2Click(Sender: TObject);
 begin
   vsComPort1.WriteData(#$7B#$04#$56#$7D);
-end;
-
-procedure TfrmUart.fsedtMainAttenChange(Sender: TObject);
-begin
-
-end;
-
-procedure TfrmUart.MaskEdit1Change(Sender: TObject);
-begin
-
-end;
-
-
-
-procedure TfrmUart.Memo1Change(Sender: TObject);
-begin
-
 end;
 
 procedure TfrmUart.Memo1DblClick(Sender: TObject);

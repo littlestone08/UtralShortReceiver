@@ -2,14 +2,14 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="42">
+    <Units Count="45">
       <Unit0>
         <Filename Value="RDA1005L.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="26" Y="9"/>
-        <UsageCount Value="87"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -19,12 +19,10 @@
         <ComponentName Value="frmUart"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="346"/>
         <CursorPos X="34" Y="365"/>
-        <UsageCount Value="87"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="88"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
@@ -318,129 +316,46 @@
         <CursorPos X="20" Y="267"/>
         <UsageCount Value="9"/>
       </Unit41>
+      <Unit42>
+        <Filename Value="d:\lazarus\components\addone_compoents\pl_Synapse\source\kylix.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="D:\lazarus\components\addone_compoents\pl_Synapse\lazarus_synapse.pas"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="13" Y="22"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="d:\lazarus\components\addone_compoents\pl_Synapse\source\ssl_cryptlib.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="147"/>
+        <CursorPos X="52" Y="123"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit44>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
-        <Filename Value="main.pas"/>
-        <Caret Line="235" Column="52" TopLine="221"/>
+        <Filename Value="RDA1005L.lpr"/>
+        <Caret Line="9" Column="26"/>
       </Position1>
       <Position2>
-        <Filename Value="main.pas"/>
-        <Caret Line="467" Column="97" TopLine="328"/>
+        <Filename Value="D:\lazarus\components\addone_compoents\pl_Synapse\lazarus_synapse.pas"/>
+        <Caret Line="16" Column="57"/>
       </Position2>
       <Position3>
-        <Filename Value="main.pas"/>
-        <Caret Line="469" Column="97" TopLine="432"/>
+        <Filename Value="D:\lazarus\components\addone_compoents\pl_Synapse\lazarus_synapse.pas"/>
+        <Caret Line="22" Column="13"/>
       </Position3>
-      <Position4>
-        <Filename Value="main.pas"/>
-        <Caret Line="366" Column="3" TopLine="362"/>
-      </Position4>
-      <Position5>
-        <Filename Value="main.pas"/>
-        <Caret Line="354" Column="53" TopLine="339"/>
-      </Position5>
-      <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="462" Column="46" TopLine="429"/>
-      </Position6>
-      <Position7>
-        <Filename Value="main.pas"/>
-        <Caret Line="396" Column="45" TopLine="367"/>
-      </Position7>
-      <Position8>
-        <Filename Value="main.pas"/>
-        <Caret Line="361" Column="25" TopLine="336"/>
-      </Position8>
-      <Position9>
-        <Filename Value="main.pas"/>
-        <Caret Line="364" Column="36" TopLine="349"/>
-      </Position9>
-      <Position10>
-        <Filename Value="main.pas"/>
-        <Caret Line="372" Column="54" TopLine="345"/>
-      </Position10>
-      <Position11>
-        <Filename Value="main.pas"/>
-        <Caret Line="304" Column="81" TopLine="294"/>
-      </Position11>
-      <Position12>
-        <Filename Value="main.pas"/>
-        <Caret Line="359" Column="70" TopLine="328"/>
-      </Position12>
-      <Position13>
-        <Filename Value="main.pas"/>
-        <Caret Line="381" Column="76" TopLine="371"/>
-      </Position13>
-      <Position14>
-        <Filename Value="main.pas"/>
-        <Caret Line="399" Column="11" TopLine="371"/>
-      </Position14>
-      <Position15>
-        <Filename Value="main.pas"/>
-        <Caret Line="393" Column="56" TopLine="371"/>
-      </Position15>
-      <Position16>
-        <Filename Value="main.pas"/>
-        <Caret Line="334" Column="3" TopLine="328"/>
-      </Position16>
-      <Position17>
-        <Filename Value="main.pas"/>
-        <Caret Line="209" Column="45" TopLine="200"/>
-      </Position17>
-      <Position18>
-        <Filename Value="main.pas"/>
-        <Caret Line="377" Column="37" TopLine="371"/>
-      </Position18>
-      <Position19>
-        <Filename Value="main.pas"/>
-        <Caret Line="380" Column="44" TopLine="371"/>
-      </Position19>
-      <Position20>
-        <Filename Value="main.pas"/>
-        <Caret Line="334" Column="3" TopLine="328"/>
-      </Position20>
-      <Position21>
-        <Filename Value="main.pas"/>
-        <Caret Line="214" Column="78" TopLine="239"/>
-      </Position21>
-      <Position22>
-        <Filename Value="main.pas"/>
-        <Caret Line="395" Column="80" TopLine="371"/>
-      </Position22>
-      <Position23>
-        <Filename Value="main.pas"/>
-        <Caret Line="369" Column="39" TopLine="347"/>
-      </Position23>
-      <Position24>
-        <Filename Value="main.pas"/>
-        <Caret Line="371" Column="39" TopLine="349"/>
-      </Position24>
-      <Position25>
-        <Filename Value="main.pas"/>
-        <Caret Line="370" Column="39" TopLine="348"/>
-      </Position25>
-      <Position26>
-        <Filename Value="main.pas"/>
-        <Caret Line="369" Column="39" TopLine="347"/>
-      </Position26>
-      <Position27>
-        <Filename Value="main.pas"/>
-        <Caret Line="348" Column="24" TopLine="341"/>
-      </Position27>
-      <Position28>
-        <Filename Value="main.pas"/>
-        <Caret Line="550" Column="39" TopLine="521"/>
-      </Position28>
-      <Position29>
-        <Filename Value="main.pas"/>
-        <Caret Line="366" Column="34" TopLine="347"/>
-      </Position29>
-      <Position30>
-        <Filename Value="main.pas"/>
-        <Caret Line="365" Column="34" TopLine="346"/>
-      </Position30>
     </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode="default"/>
+    </RunParams>
   </ProjectSession>
   <Debugging>
     <BreakPoints Count="1">

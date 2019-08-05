@@ -71,7 +71,7 @@
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
     <RcCompile Include="xlsx.rc">
-      <Form>xlsx.res</Form>
+      <Form>'xlsx.res'</Form>
     </RcCompile>
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448.pas" />
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448_Status.pas" />
@@ -85,6 +85,7 @@
     <DCCReference Include="Plugin\J16\u_J08Task.pas" />
     <DCCReference Include="Plugin\J16\u_J08TaskIntf.pas" />
     <DCCReference Include="Plugin\J16\u_J08WeakGlobal.pas" />
+    <DCCReference Include="Plugin\J16\u_J16Receiver.pas" />
     <DCCReference Include="Plugin\J16\u_J16SlopeCalibrateMeasureImp.pas" />
     <DCCReference Include="Plugin\J16\u_J16Utils.pas" />
     <DCCReference Include="uart\u_FrameUart.pas">

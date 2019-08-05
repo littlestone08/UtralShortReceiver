@@ -28,7 +28,8 @@ uses
   BT_TaskIntf in 'Plugin\J16\BT_TaskIntf.pas',
   u_J16Utils in 'Plugin\J16\u_J16Utils.pas',
   u_J16SlopeCalibrateMeasureImp in 'Plugin\J16\u_J16SlopeCalibrateMeasureImp.pas',
-  u_frameJ16SlopeCalibrateMeasureUI in 'Plugin\J16\u_frameJ16SlopeCalibrateMeasureUI.pas' {FrameCustomExamineItemUI1: TFrame};
+  u_frameJ16SlopeCalibrateMeasureUI in 'Plugin\J16\u_frameJ16SlopeCalibrateMeasureUI.pas' {FrameCustomExamineItemUI1: TFrame},
+  u_J16Receiver in 'Plugin\J16\u_J16Receiver.pas';
 
 {$R *.res}
 

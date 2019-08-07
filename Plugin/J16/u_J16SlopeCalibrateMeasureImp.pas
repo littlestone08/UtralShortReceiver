@@ -17,13 +17,15 @@ type
 
 implementation
 uses
-  u_GPIB_DEV2, u_J16Receiver, u_ExamineGlobal, u_J08WeakGlobal;
+  u_GPIB_DEV2, u_J16Receiver, u_ExamineGlobal, u_J08WeakGlobal, PlumUtils, u_J16Utils;
 
 { TSlopeCalibrateMeasure }
 
 procedure TSlopeCalibrateMeasure.DoProcess;
 const
-  CONST_AM_MODES: Array[0..2] of TJ08_DevManualMode = (dmmAttent, dmmDirect,  dmmAmpli);
+  CONST_MODULS: Array[0..1] of TJ08_ModuType = (mtAM, mtFM);
+  CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 90000);
+  CONST_AMP_STATES: Array[0..2] of TJ08_DevManualMode = (dmmAttent, dmmDirect, dmmAmpli );
   CONST_AM_LEVELS_PER_MODE: Array[0..2] of Array[0..1] of Integer = (
     (-10, -30),
     (-30, -60),
@@ -34,12 +36,18 @@ var
   Radio: IJ08Receiver;
   Calibrator: ISlopeCalibrate;
   bid, pid, sid: integer;
-  i: Integer;
+  i, j, k : Integer;
+  {$IFDEF DEBUG}
+  L_DummyHint: String;
+  {$ENDIF}
+  SampledLevels: Array[0..1] of Array[0..2] of Array[0..1] of Double;
+  SlopCoeff: Array[0..2] of Array[0..1] of Double;
+  Coeffs: Array of TSlopCoffRecArray;
 begin
   inherited;
-   //------------------
-   //初始化设备
-   //------------------
+ //------------------
+ //初始化设备
+ //------------------
 
   SG:= TMG36XX.Create;
   With SG do
@@ -51,6 +59,12 @@ begin
   end;                                             
   Radio:=  TJ16Receiver.Create;
   Calibrator:= Radio as ISlopeCalibrate;
+
+  if not Radio.ReceiverTrunedOn then
+    Radio.OpenReceiver;
+  Calibrator.SetCoeffValid(False);
+  Calibrator.LevelDataFormat(0);
+  Log('打开接收机，并设置为上报原始数据');
   //-------------------
   //AM斜率测试
   //-------------------
@@ -58,63 +72,55 @@ begin
 
 
 //  //打开信号源，设置为15M， -60dB 单音
-  SG.SetFreqency(15);
-  SG.SetOnOff(True);
+
 //  Log('信号源输出 15MHz');
 //
-  for i:= 0 to Length(CONST_AM_MODES) -1 do
-  begin
-    {$IFDEF EMU}
-    L_Level:= Random(100);
-    {$ELSE}
-    if not L_Receiver.ReceiverTrunedOn then
-      L_Receiver.OpenReceiver;
 
-    InternalCheck(L_Receiver.SetFrequency(mtAM, CONST_MEASURE_LEVEL_BANDINFOS[FBProcParam.Band].BandCenterKHZ * 1000),
+  for i:= 0 to Length(CONST_MODULS) - 1 do
+  begin
+
+
+    SG.SetFreqency(CONST_MODULS_FREQS[i] / 1000);
+    SG.SetOnOff(True);
+    Log(Format('信号源输出 %.0fMHz', [CONST_MODULS_FREQS[i] / 1000]));
+
+    InternalCheck(Radio.SetFrequency(CONST_MODULS[i], CONST_MODULS_FREQS[i]),
           '设置AM频率失败');
 
-    InternalCheck(L_Receiver.SetHiGain(damManual, FBProcParam.ManualMode),
-            RevrPropSetFaildStr(CONST_STR_DEVAMPMODE[damManual] + '---' + CONST_STR_DEVMANUALMODE[FBProcParam.ManualMode],
-                                  CONST_STR_DEVAMPMODE[L_Receiver.AmpMode] + '---' +  CONST_STR_DEVMANUALMODE[L_Receiver.ManualMode[mtAM]]));
+    Log(Format('接收机设置: %s  %d KHz', [CONST_STR_MODUL[CONST_MODULS[i]],
+                                          CONST_MODULS_FREQS[i]
+                                      ]));
+    for j := 0 to Length(CONST_AMP_STATES) - 1 do
+    begin
+      InternalCheck(Radio.SetHiGain(damManual, CONST_AMP_STATES[j]), '设置手动增益模式失败');
+      if CONST_AMP_STATES[j] = dmmAttent then
+        WaitMS(500);
 
-    Sleep(FSampleTimeMs);
-    if FBProcParam.ManualMode = dmmAttent then
-      Sleep(500);
+      Log(Format('接收机增益模式: %s', [CONST_STR_DEVMANUALMODE[CONST_AMP_STATES[j]]]));
 
-    InternalCheck(L_Receiver.ReadDepth(L_Depth, mtAM),  '读取调制度值失败');
-    //OutputDebugString(PChar(Format('%.2f', [L_Depth / 100])));
-      {$IFDEF DEBUG}
-    InternalCheck(L_Receiver.ReadLevel(L_Level, mtAM, L_Hint),  '读取电平值失败');
-    Sender.LogDebug(L_Hint);
-      {$ELSE}
-    InternalCheck(L_Receiver.ReadLevel(L_Level, mtAM),  '读取电平值失败');
-      {$ENDIF}
-    {$ENDIF}
+      for k := 0 to Length(CONST_AM_LEVELS_PER_MODE[j]) - 1 do
+      begin
+        SG.SetLevelDbm(CONST_AM_LEVELS_PER_MODE[j, k]);
+        Log(Format('信号源电平设置: %d dBm', [CONST_AM_LEVELS_PER_MODE[j, k]]));
+        WaitMS(100);
+        {$IFDEF DEBUG}
+        InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM, L_DummyHint),  '读取电平值失败');
+        {$ELSE}
+        InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM),  '读取电平值失败');
+        {$ENDIF}
+        Log(Format('读取到接收机电平值: %.0f', [CONST_AM_LEVELS_PER_MODE[j, k]]));
+      end;
+    end;
 
-    TJ08BProcStore(Sender.BProcStore).SetValue(
-                TJ08MeasureType(Parent.Iden),
-                FBProcParam.Band,
-                FBProcParam.Level,
-                FBProcParam.ManualMode,
-                L_Level);
-    HintInfo:= Description[dufThreadHint] + Format('电平值为 %.2f', [L_Level]);
+    SetLength(Coeffs, 3);
+    for i := 0 to 2 - 1 do
+    begin
+      Coeffs[i].AX:= CONST_AM_LEVELS_PER_MODE[]
+      SampledLevels[i]
+    end;
+  end;
 
-    Sender.LogDebug(HintInfo);
-  end
-//  //打开接收机，进入非修正模式
-//  if not Radio.ReceiverTrunedOn then
-//    Radio.OpenReceiver;
-//  Calibrator.SetCoeffValid(False);
-//  Calibrator.LevelDataFormat(0);
-//  Radio.SetFrequency(mtAM, 15 * 1000);
-//  Log('接收机系数设置为无效, 输出原始电平数据, 频率15MHz');
-//
-//  //小信号, 放大状态
-//  SG.SetLevelDbm(-60);
-//  Log('信号源输出 -60dBm');
-//  InternalCheck(Radio.SetHiGain(damManual, dmmAmpli), '接收机手动模式'
-//  //中信号,直通状态
-//  //大信号,衰减状态
+
 
 end;
 

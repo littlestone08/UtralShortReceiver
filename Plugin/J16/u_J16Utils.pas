@@ -12,11 +12,11 @@ type
   End;
   TSlopCoffRecArray = Array of TSlopCoffRec;
 
-  Procedure CalcuSlopeCoff(var Values: TSlopCoffRecArray);
+  Procedure CalcuSlopeCoff(var Values: TSlopCoffRecArray; YXRatio: Double);
 implementation
 
 
-Procedure CalcuSlopeCoff(var Values: TSlopCoffRecArray);
+Procedure CalcuSlopeCoff(var Values: TSlopCoffRecArray; YXRatio: Double);
 var
   i: integer;
 begin
@@ -24,7 +24,7 @@ begin
   begin
     With Values[i] do
     begin
-      PrimaryCoeff:= 9.2/((AY  - BY) / (AX - BX));
+      PrimaryCoeff:= YXRatio/((AY  - BY) / (AX - BX));
       ConstantTerm:= BYWish - PrimaryCoeff * BY;
     end;
   end;
@@ -59,7 +59,7 @@ begin
   Values[2].BY:= -385;
   Values[2].BYWish:= -796;
 
-  CalcuSlopeCoff(Values);
+  CalcuSlopeCoff(Values, 9.2);
   OutputDebugString(PAnsiChar(Format('%.5f', [Values[2].PrimaryCoeff * -385 +Values[2].ConstantTerm])));
 end;
 

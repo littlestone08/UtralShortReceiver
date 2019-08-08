@@ -31,6 +31,7 @@ const
     (-30, -60),
     (-60, -90)
   );
+  CONST_YXRATIO: array[0..1] of Double = (9.2, 480.00);
 var
   SG: ISignalGenerator;
   Radio: IJ08Receiver;
@@ -90,18 +91,41 @@ begin
   Coeffs[0, 2].BX     := -90;
   Coeffs[0, 2].AYWish:= -520;
   Coeffs[0, 2].BYWish:= -796;
-  {$IFDEF DEBUG}
+
+
+  //FM测试条件
+  Coeffs[1, 0].AX     := -10;
+  Coeffs[1, 0].BX     := -30;
+  Coeffs[1, 0].AYWish := 20000;
+  Coeffs[1, 0].BYWish := 10400;
+
+  Coeffs[1, 1].AX     := -30;
+  Coeffs[1, 1].BX     := -60;
+  Coeffs[1, 1].AYWish:= 10400;
+  Coeffs[1, 1].BYWish:= -4000;
+
+  Coeffs[1, 2].AX     := -60;
+  Coeffs[1, 2].BX     := -90;
+  Coeffs[1, 2].AYWish:= -4000;
+  Coeffs[1, 2].BYWish:= -18400;
+  {$IFDEF DEBUG_EMU}
   SampledLevels[0, 0, 0]:= -85;
   SampledLevels[0, 0, 1]:= -275;
   SampledLevels[0, 1, 0]:= -38;
   SampledLevels[0, 1, 1]:= -391;
   SampledLevels[0, 2, 0]:= -102;
   SampledLevels[0, 2, 1]:= -385;
+
+  SampledLevels[1, 0, 0]:= 9004;
+  SampledLevels[1, 0, 1]:= -763;
+  SampledLevels[1, 1, 0]:= 11219;
+  SampledLevels[1, 1, 1]:= -3015;
+  SampledLevels[1, 2, 0]:= 8748;
+  SampledLevels[1, 2, 1]:= -5783;
   {$ENDIF}
 
   for i:= 0 to Length(CONST_MODULS) - 1 do
   begin
-
     {$IFNDEF Debug_Emu}
     SG.SetFreqency(CONST_MODULS_FREQS[i] / 1000);
     SG.SetOnOff(True);
@@ -139,7 +163,7 @@ begin
         {$ELSE}
         InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM),  '读取电平值失败');
         {$ENDIF}
-        Log(Format('读取到接收机电平值: %d', [CONST_LEVELS_PER_MODE[j, k]]));
+        Log(Format('读取到接收机电平值: %.0f', [SampledLevels[i, j, k]]));
 
         if k = 0 then
         begin
@@ -154,11 +178,11 @@ begin
       end;
     end;
 
-    CalcuSlopeCoff(Coeffs[i]);
+    CalcuSlopeCoff(Coeffs[i], CONST_YXRATIO[i]);
     Log('计算系数完成:' );
     for m := 0 to Length(Coeffs[i]) - 1 do
     begin
-      Log(Format('[%d]  :      %.8f, %.8f', [m + 1, Coeffs[i, m].PrimaryCoeff, Coeffs[i, m].ConstantTerm]));
+      Log(Format('      [%d]  :%.8f, %.8f', [m + 1, Coeffs[i, m].PrimaryCoeff, Coeffs[i, m].ConstantTerm]));
     end;
 //
 //    for i := 0 to 2 - 1 do

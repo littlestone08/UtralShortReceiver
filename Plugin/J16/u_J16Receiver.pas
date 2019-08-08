@@ -45,7 +45,7 @@ type
                                                           //2 : A1 * x + B1
                                                           //3 : A2 * x + B2
     Procedure SetFMCoeff(A0, B0, A1, B1, A2, B2: Double); //same with SetAMCoeff
-    Procedure QueryCoeffInfo(var Value: TCoffReport);     // the receiver will be report the coeff info as responding this command,
+    Function  QueryCoeffInfo(var Value: TCoffReport): Boolean;     // the receiver will be report the coeff info as responding this command,
                                                           // the value will return to  TCoffReport struct,
                                                           // 此命令发送后，应该用消息循环等待一会儿，以处理串口发送出来的数据
                                                           //保证返回的变量有效
@@ -53,6 +53,9 @@ type
   End;
 
   TJ16Receiver = Class(TJ08Receiver, ISlopeCalibrate)
+  Private
+    FCoffReport: TCoffReport;
+    Procedure ProcessLevelCoffStatus(const Raw: String);
   Public Type
     TJ16RawPaser = class(TJ08Receiver.TJ08RawParser)
     Protected
@@ -66,11 +69,19 @@ type
     Procedure SetCoeffValid(Value : Boolean);
     Procedure SetAMCoeff(A0, B0, A1, B1, A2, B2: Double);
     Procedure SetFMCoeff(A0, B0, A1, B1, A2, B2: Double);
-    Procedure QueryCoeffInfo(var Value: TCoffReport);
+    Function  QueryCoeffInfo(var Value: TCoffReport): Boolean;
     Procedure WriteToE2PROM;
   End;
 
 implementation
+uses
+  StrUtils, PlumUtils, Windows;
+
+Procedure DebugText(const Info: String);
+begin
+
+end;
+
 
 { TCoffReport }
 
@@ -123,14 +134,109 @@ begin
 
 end;
 
-procedure TJ16Receiver.QueryCoeffInfo;
+procedure TJ16Receiver.ProcessLevelCoffStatus(const Raw: String);
 begin
+  FCoffReport.FromString(Raw);
+  DebugText(PlumUtils.Buf2Hex(FCoffReport.ToString));
+//  lbCoffApplied.Caption:= IntToStr(L_frame.Applied);
+//  lbCoffValid.Caption:= IntToStr(L_Frame.Valid);
+//  ReverseCoffsByteOrder(L_Frame.AMCoff);
+//  ReverseCoffsByteOrder(L_Frame.FMCoff);
+//  FloatValue2Labels([
+//    L_Frame.AmCoff[0][0], L_Frame.AmCoff[0][1],
+//    L_Frame.AmCoff[1][0], L_Frame.AmCoff[1][1],
+//    L_Frame.AmCoff[2][0], L_Frame.AmCoff[2][1],
+//    L_Frame.FmCoff[0][0], L_Frame.FmCoff[0][1],
+//    L_Frame.FmCoff[1][0], L_Frame.FmCoff[1][1],
+//    L_Frame.FmCoff[2][0], L_Frame.FmCoff[2][1]]);
 
 end;
 
-procedure TJ16Receiver.SetAMCoeff(A0, B0, A1, B1, A2, B2: Double);
+Function TJ16Receiver.QueryCoeffInfo(var Value: TCoffReport): Boolean;
+const
+  L_Cmd: AnsiString =  #$7B#$04#$56#$7D;
+var
+  Try_Time: Integer;
 begin
+  Result:= False;
+  WriteRawData(PAnsiChar(L_Cmd), Length(L_Cmd));
+  FCoffReport.SOF:= 0;
+  Try_Time:= 0;
+  while (Try_Time < 3) and (FCoffReport.SOF = 0) do
+  begin
+    WaitMS(100);
+    Inc(Try_Time);
+  end;
+//  if FCoffReport.SOF = 0 then
+//    raise Exception.Create('QueryCoeffInfo Faild');
+  if FCoffReport.SOF <> 0 then
+  begin
+    Value:= FCoffReport;
+    Result:= True;
+  end;
 
+end;
+
+//Procedure ReverseCoffsByteOrder(var Coffs: TCoffs);
+//var
+//  i: Integer;
+//  Ptr: PDWord;
+//  Temp: DWORD;
+//  a: DWORD;
+//begin
+////  Ptr:= @Coffs;
+////  for i:= 0 to (SizeOf(Coffs) div SizeOf(Single)) - 1 do
+////  begin
+////    Temp:= ((PByte(Ptr) + 0)^ shl 24 ) or ((PByte(Ptr) + 1)^ shl 16) or
+////    ((PByte(Ptr) + 2)^ shl 8 ) or ((PByte(Ptr) + 3)^ shl 0);
+////    Ptr^:= Temp;
+////    Inc(Ptr);
+////  end;
+//end;
+
+//LongRec
+
+Procedure ReverseDWORD(var  value: DWORD);
+type
+  PtrLongRec = ^LongRec;
+var
+  PtrOld: PtrLongRec;
+  PtrNew: PtrLongRec;
+  RAW: LongInt;
+begin
+  PtrOld:= @Value;
+  PtrNew:= @Raw;
+  PtrNew.Bytes[0]:= PtrOld.Bytes[3];
+  PtrNew.Bytes[1]:= PtrOld.Bytes[2];
+  PtrNew.Bytes[2]:= PtrOld.Bytes[1];
+  PtrNew.Bytes[3]:= PtrOld.Bytes[0];
+  PLongInt(PtrOld)^:= Raw;
+end;
+
+Procedure ReverseCoffsByteOrder(var Coffs: TCoffs);
+var
+  i: Integer;
+  Ptr: PDWORD;
+begin
+  for i:= 0 to (SizeOf(Coffs) div SizeOf(Single)) - 1 do
+  begin
+    ReverseDWORD(Ptr^);
+    Inc(Ptr);
+  end;
+end;
+procedure TJ16Receiver.SetAMCoeff(A0, B0, A1, B1, A2, B2: Double);
+var
+  L_Packate: TSetCoffPackate;
+  L_Buf: AnsiString;
+begin
+  L_Packate.Fill(0, A0, B0, A1, B1, A2, B2);
+
+  ReverseCoffsByteOrder(L_Packate.Coffs);
+  L_Buf:= L_Packate.ToString;
+  WriteRawData(PAnsiChar(L_Buf), Length(L_Buf));
+
+  DebugText('写入串口：' + PlumUtils.Buf2Hex(AnsiLeftStr(L_Buf, Length(L_Buf))));
+  fds
 end;
 
 procedure TJ16Receiver.SetCoeffValid(Value: Boolean);
@@ -152,8 +258,78 @@ end;
 
 procedure TJ16Receiver.TJ16RawPaser.DoParse2(var ABuf: AnsiString;
   const ACtrl: TJ08Receiver; var MatchCode: Byte);
+var
+  L_PackLen: WORD;
+  L_HexStr: AnsiString;
 begin
+  //DebugText( PlumUtils.Buf2Hex(ABuf));
+  While (Length(ABuf) >= 3)  do
+  begin
+    if strlcomp(#$7B, PAnsiChar(ABuf),1) = 0 then
+    begin
+      if Length(ABuf) >= 3  then //可以取得长度了
+      begin
+        if (Byte(ABuf[1]) = $7B) and (Byte(ABuf[3]) = $7D) then    //原来的协议，无长度，真是要命
+        begin
+          Case Byte(ABuf[2]) of
+            $33:
+            begin
+              DebugText('接收到协议格式正确应答');
+            end
+          else
+            DebugText('接收到协议其它应答');
+          end;
+          ABuf:= RightStr(ABuf, Length(ABuf) - 3);
+        end
+        else
+        begin        //有长度的协议
+          L_PackLen:= byte(ABuf[2]);
+          if Length(ABuf) >= L_PackLen then
+          begin
+            if ABuf[L_PackLen] = #$7D then
+            begin
+              L_HexStr:= PlumUtils.Buf2Hex(AnsiLeftStr(ABuf, L_PackLen));
+              DebugText('接收到数据: ' + L_HexStr);
+              Case Byte(ABuf[3]) of   //Cmd
+                $56:
+                begin
+                  TJ16Receiver(ACtrl).ProcessLevelCoffStatus(ABuf);
+                end;
 
+              end;
+
+              ABuf:= AnsiRightStr(ABuf, Length(ABuf) - L_PackLen);
+            end
+            else
+            begin
+              ABuf:= RightStr(ABuf, Length(ABuf) - 1);
+              DebugText('找不到数据尾，弹出1字节');
+            end;
+          end
+          else
+          begin
+            Break;
+          end;
+        end;
+      end
+      else
+      begin
+        break;
+      end;
+    end
+    else
+    begin
+      ABuf:= RightStr(ABuf, Length(ABuf) - 1);
+    end;
+  end;
 end;
 
+
+var
+  x: DWORD;
+initialization
+  x:= $11223344;
+  windows.OutputDebugString(PChar(Format('%x', [x])));  
+  ReverseDWORD(x);
+  windows.OutputDebugString(PChar(Format('%x', [x])));
 end.

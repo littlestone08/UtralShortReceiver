@@ -201,7 +201,7 @@ type
     _FScanValueHandled: Boolean;
 
     Procedure WriteSetCmd(CmdStr: AnsiString; MaxTryTimes: Integer = 3; TimeOutMs: Cardinal = 5000);
-    Procedure WriteRawData(APtr: Pointer; ALen: Cardinal);
+
   Private
     procedure OnRs232ReceiveHandler(Sender: TObject;
                                     Buffer: Pointer;
@@ -209,6 +209,7 @@ type
 
 
   Protected
+    Procedure WriteRawData(APtr: Pointer; ALen: Cardinal);
     function GetParserClass: TRawParserClass; virtual;
     function get_ReceiverTrunedOn: Boolean;
     Procedure OnCmdAckHandler;

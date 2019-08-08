@@ -31,7 +31,6 @@ object frmMain: TfrmMain
     ExplicitHeight = 606
     inherited Splitter1: TSplitter
       Left = 801
-      Top = 76
       Height = 511
       ExplicitLeft = 801
       ExplicitTop = 95
@@ -39,7 +38,6 @@ object frmMain: TfrmMain
     end
     inherited ToolBar: TToolBar
       Width = 1371
-      Height = 19
       ButtonWidth = 64
       ExplicitWidth = 1371
       inherited ToolButton1: TToolButton
@@ -52,31 +50,24 @@ object frmMain: TfrmMain
       end
       inherited tblUartParam: TToolButton
         Left = 215
-        Top = 0
         ExplicitLeft = 215
         ExplicitWidth = 63
       end
       inherited ToolButton2: TToolButton
         Left = 278
-        Top = 0
         ExplicitLeft = 278
-        ExplicitTop = 0
         ExplicitWidth = 68
       end
       inherited ToolButton3: TToolButton
         Left = 346
-        Top = 0
         OnClick = frameMain1ToolButton3Click
         ExplicitLeft = 346
-        ExplicitTop = 0
         ExplicitWidth = 68
       end
       inherited ToolButton4: TToolButton
         Left = 414
-        Top = 0
         OnClick = frameMain1ToolButton4Click
         ExplicitLeft = 414
-        ExplicitTop = 0
         ExplicitWidth = 68
       end
     end
@@ -87,10 +78,8 @@ object frmMain: TfrmMain
       ExplicitWidth = 1371
     end
     inherited Panel1: TPanel
-      Top = 76
       Width = 801
       Height = 511
-      ExplicitTop = 76
       ExplicitWidth = 801
       ExplicitHeight = 511
       inherited Splitter2: TSplitter
@@ -110,8 +99,8 @@ object frmMain: TfrmMain
           ExplicitWidth = 801
           ExplicitHeight = 416
           inherited GridPanel1: TGridPanel
-            Width = 353
-            ExplicitWidth = 353
+            Width = 333
+            ExplicitWidth = 333
           end
         end
       end
@@ -152,14 +141,12 @@ object frmMain: TfrmMain
     end
     inherited Memo1: TMemo
       Left = 804
-      Top = 76
       Height = 511
       ExplicitLeft = 804
       ExplicitTop = 76
       ExplicitHeight = 511
     end
     inherited ToolBar1: TToolBar
-      Top = 19
       Width = 1371
       ExplicitTop = 19
       ExplicitWidth = 1371

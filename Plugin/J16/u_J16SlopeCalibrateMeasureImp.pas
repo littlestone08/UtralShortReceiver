@@ -26,7 +26,7 @@ const
   CONST_MODULS: Array[0..1] of TJ08_ModuType = (mtAM, mtFM);
   CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 90000);
   CONST_AMP_STATES: Array[0..2] of TJ08_DevManualMode = (dmmAttent, dmmDirect, dmmAmpli );
-  CONST_AM_LEVELS_PER_MODE: Array[0..2] of Array[0..1] of Integer = (
+  CONST_LEVELS_PER_MODE: Array[0..2] of Array[0..1] of Integer = (
     (-10, -30),
     (-30, -60),
     (-60, -90)
@@ -36,19 +36,15 @@ var
   Radio: IJ08Receiver;
   Calibrator: ISlopeCalibrate;
   bid, pid, sid: integer;
-  i, j, k : Integer;
-  {$IFDEF DEBUG}
-  L_DummyHint: String;
-  {$ENDIF}
+  i, j, k, m: Integer;
   SampledLevels: Array[0..1] of Array[0..2] of Array[0..1] of Double;
-  SlopCoeff: Array[0..2] of Array[0..1] of Double;
-  Coeffs: Array of TSlopCoffRecArray;
+  Coeffs: Array[0..1] of TSlopCoffRecArray;
 begin
   inherited;
  //------------------
  //初始化设备
  //------------------
-
+  {$IFNDEF Debug_Emu}
   SG:= TMG36XX.Create;
   With SG do
   begin
@@ -56,7 +52,7 @@ begin
     Iden:= 'SG';
     LoadInstrumentParam(bid, pid, sid);
     Connnect(bid, pid, sid);
-  end;                                             
+  end;
   Radio:=  TJ16Receiver.Create;
   Calibrator:= Radio as ISlopeCalibrate;
 
@@ -64,6 +60,8 @@ begin
     Radio.OpenReceiver;
   Calibrator.SetCoeffValid(False);
   Calibrator.LevelDataFormat(0);
+  {$ENDIF}
+
   Log('打开接收机，并设置为上报原始数据');
   //-------------------
   //AM斜率测试
@@ -75,49 +73,99 @@ begin
 
 //  Log('信号源输出 15MHz');
 //
+  SetLength(Coeffs[0], 3);
+  SetLength(Coeffs[1], 3);
+  //AM测试条件
+  Coeffs[0, 0].AX     := -10;
+  Coeffs[0, 0].BX     := -30;
+  Coeffs[0, 0].AYWish := -60;
+  Coeffs[0, 0].BYWish := -244;
+
+  Coeffs[0, 1].AX     := -30;
+  Coeffs[0, 1].BX     := -60;
+  Coeffs[0, 1].AYWish:= -244;
+  Coeffs[0, 1].BYWish:= -520;
+
+  Coeffs[0, 2].AX     := -60;
+  Coeffs[0, 2].BX     := -90;
+  Coeffs[0, 2].AYWish:= -520;
+  Coeffs[0, 2].BYWish:= -796;
+  {$IFDEF DEBUG}
+  SampledLevels[0, 0, 0]:= -85;
+  SampledLevels[0, 0, 1]:= -275;
+  SampledLevels[0, 1, 0]:= -38;
+  SampledLevels[0, 1, 1]:= -391;
+  SampledLevels[0, 2, 0]:= -102;
+  SampledLevels[0, 2, 1]:= -385;
+  {$ENDIF}
 
   for i:= 0 to Length(CONST_MODULS) - 1 do
   begin
 
-
+    {$IFNDEF Debug_Emu}
     SG.SetFreqency(CONST_MODULS_FREQS[i] / 1000);
     SG.SetOnOff(True);
+    {$ENDIF}
     Log(Format('信号源输出 %.0fMHz', [CONST_MODULS_FREQS[i] / 1000]));
 
+    {$IFNDEF Debug_Emu}
     InternalCheck(Radio.SetFrequency(CONST_MODULS[i], CONST_MODULS_FREQS[i]),
           '设置AM频率失败');
+    {$ENDIF}
 
     Log(Format('接收机设置: %s  %d KHz', [CONST_STR_MODUL[CONST_MODULS[i]],
                                           CONST_MODULS_FREQS[i]
                                       ]));
     for j := 0 to Length(CONST_AMP_STATES) - 1 do
     begin
+      {$IFNDEF Debug_Emu}
       InternalCheck(Radio.SetHiGain(damManual, CONST_AMP_STATES[j]), '设置手动增益模式失败');
+      {$ENDIF}
       if CONST_AMP_STATES[j] = dmmAttent then
         WaitMS(500);
 
       Log(Format('接收机增益模式: %s', [CONST_STR_DEVMANUALMODE[CONST_AMP_STATES[j]]]));
 
-      for k := 0 to Length(CONST_AM_LEVELS_PER_MODE[j]) - 1 do
+      for k := 0 to Length(CONST_LEVELS_PER_MODE[j]) - 1 do
       begin
-        SG.SetLevelDbm(CONST_AM_LEVELS_PER_MODE[j, k]);
-        Log(Format('信号源电平设置: %d dBm', [CONST_AM_LEVELS_PER_MODE[j, k]]));
+        {$IFNDEF Debug_Emu}
+        SG.SetLevelDbm(CONST_LEVELS_PER_MODE[j, k]);
+        {$ENDIF}
+        Log(Format('信号源电平设置: %d dBm', [CONST_LEVELS_PER_MODE[j, k]]));
         WaitMS(100);
         {$IFDEF DEBUG}
-        InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM, L_DummyHint),  '读取电平值失败');
+        //InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM, L_DummyHint),  '读取电平值失败');
+        //使用预置数模拟
         {$ELSE}
         InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM),  '读取电平值失败');
         {$ENDIF}
-        Log(Format('读取到接收机电平值: %.0f', [CONST_AM_LEVELS_PER_MODE[j, k]]));
+        Log(Format('读取到接收机电平值: %d', [CONST_LEVELS_PER_MODE[j, k]]));
+
+        if k = 0 then
+        begin
+          Coeffs[i, j].AX:= CONST_LEVELS_PER_MODE[j, k];
+          Coeffs[i, j].AY:= SampledLevels[i, j, k];
+        end
+        else
+        begin
+          Coeffs[i, j].BX:= CONST_LEVELS_PER_MODE[j, k];
+          Coeffs[i, j].BY:= SampledLevels[i, j, k];
+        end;
       end;
     end;
 
-    SetLength(Coeffs, 3);
-    for i := 0 to 2 - 1 do
+    CalcuSlopeCoff(Coeffs[i]);
+    Log('计算系数完成:' );
+    for m := 0 to Length(Coeffs[i]) - 1 do
     begin
-      Coeffs[i].AX:= CONST_AM_LEVELS_PER_MODE[]
-      SampledLevels[i]
+      Log(Format('[%d]  :      %.8f, %.8f', [m + 1, Coeffs[i, m].PrimaryCoeff, Coeffs[i, m].ConstantTerm]));
     end;
+//
+//    for i := 0 to 2 - 1 do
+//    begin
+//      Coeffs[i].AX:= CONST_AM_LEVELS_PER_MODE[]
+//      SampledLevels[i]
+//    end;
   end;
 
 

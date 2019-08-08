@@ -170,7 +170,9 @@ type
     Strict Private
       FWishScanDataN: Byte;
     Protected
-      Procedure DoParser(var ABuf: AnsiString; const ACtrl: TJ08Receiver); Override;
+      Procedure DoParser(var ABuf: AnsiString; const ACtrl: TJ08Receiver); override;
+      Procedure DoParse2(var ABuf: AnsiString; const ACtrl: TJ08Receiver; var MatchCode: Byte); Virtual;
+//      Procedure DoParser2(var ABuf: AnsiString; const ACtrl: TJ08Receiver)
     Public
       Property WishScanDataN: Byte read FWishScanDataN write FWishScanDataN;
     End;
@@ -207,7 +209,7 @@ type
 
 
   Protected
-    function GetParserClass: TRawParserClass; 
+    function GetParserClass: TRawParserClass; virtual;
     function get_ReceiverTrunedOn: Boolean;
     Procedure OnCmdAckHandler;
     Procedure OnStoreAckHandler;
@@ -1500,6 +1502,12 @@ end;
 { TUartCommCtrl1.TRawParser }
 
 
+procedure TJ08Receiver.TJ08RawParser.DoParse2(var ABuf: AnsiString;
+  const ACtrl: TJ08Receiver; var MatchCode: Byte);
+begin
+  //place holder
+end;
+
 procedure TJ08Receiver.TJ08RawParser.DoParser(var ABuf: AnsiString; const ACtrl: TJ08Receiver);
 const
   CONST_MATCH_FAILD: Byte = 0;
@@ -1716,6 +1724,7 @@ begin
         begin
           Break;
         end;
+        {$ENDREGION}
 
         {$REGION 'ÊÔ½âÎöFMÆµÆ×(½ð¶ú¶ä£¿)'}
         L_MatchCode:= TryMatch($CC, L_PosA, L_Data, L_Fragment);
@@ -1767,6 +1776,8 @@ begin
           end;
         end;
         {$ENDREGION}
+
+        DoParse2(ABuf, ACtrl, L_MatchCode);
 
         if L_MatchCode = CONST_MATCH_FAILD then
         begin

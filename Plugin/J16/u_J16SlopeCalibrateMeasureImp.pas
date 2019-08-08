@@ -123,7 +123,7 @@ begin
   SampledLevels[1, 2, 0]:= 8748;
   SampledLevels[1, 2, 1]:= -5783;
   {$ENDIF}
-
+  //读取电平值
   for i:= 0 to Length(CONST_MODULS) - 1 do
   begin
     {$IFNDEF Debug_Emu}
@@ -178,6 +178,7 @@ begin
       end;
     end;
 
+    //计算系数
     CalcuSlopeCoff(Coeffs[i], CONST_YXRATIO[i]);
     Log('计算系数完成:' );
     for m := 0 to Length(Coeffs[i]) - 1 do

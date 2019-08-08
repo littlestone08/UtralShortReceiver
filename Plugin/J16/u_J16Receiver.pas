@@ -53,6 +53,15 @@ type
   End;
 
   TJ16Receiver = Class(TJ08Receiver, ISlopeCalibrate)
+  Public Type
+    TJ16RawPaser = class(TJ08Receiver.TJ08RawParser)
+    Protected
+//      Procedure DoParser(var ABuf: AnsiString; const ACtrl: TJ08Receiver); Override;
+      Procedure DoParse2(var ABuf: AnsiString; const ACtrl: TJ08Receiver; var MatchCode: Byte); Override;
+    end;
+  protected
+    function GetParserClass: TRawParserClass; override;
+  Protected //interface
     Procedure LevelDataFormat(Value : Integer);
     Procedure SetCoeffValid(Value : Boolean);
     Procedure SetAMCoeff(A0, B0, A1, B1, A2, B2: Double);
@@ -104,6 +113,11 @@ end;
 
 { TJ16Receiver }
 
+function TJ16Receiver.GetParserClass: TRawParserClass;
+begin
+  Result:= TJ16RawPaser;
+end;
+
 procedure TJ16Receiver.LevelDataFormat(Value: Integer);
 begin
 
@@ -130,6 +144,14 @@ begin
 end;
 
 procedure TJ16Receiver.WriteToE2PROM;
+begin
+
+end;
+
+{ TJ16Receiver.TJ16RawPaser }
+
+procedure TJ16Receiver.TJ16RawPaser.DoParse2(var ABuf: AnsiString;
+  const ACtrl: TJ08Receiver; var MatchCode: Byte);
 begin
 
 end;

@@ -8,7 +8,7 @@ uses
 type
   TSlopCoffRec = Record
     AX, AY, BX, BY, AYWish, BYWish: Double;
-    PrimaryCoeff, ConstantTerm: double;
+    PrimaryCoeff, ConstantTerm: Single;
   End;
   TSlopCoffRecArray = Array of TSlopCoffRec;
 

@@ -38,7 +38,7 @@ var
   Calibrator: ISlopeCalibrate;
   bid, pid, sid: integer;
   i, j, k, m: Integer;
-  SampledLevels: Array[0..1] of Array[0..2] of Array[0..1] of Double;
+  SampledLevels: Array[0..1] of Array[0..2] of Array[0..1] of Single;
   Coeffs: Array[0..1] of TSlopCoffRecArray;
 begin
   inherited;
@@ -123,7 +123,7 @@ begin
   SampledLevels[1, 2, 0]:= 8748;
   SampledLevels[1, 2, 1]:= -5783;
   {$ENDIF}
-  //读取电平值
+  //读取电平值并计算
   for i:= 0 to Length(CONST_MODULS) - 1 do
   begin
     {$IFNDEF Debug_Emu}
@@ -185,16 +185,9 @@ begin
     begin
       Log(Format('      [%d]  :%.8f, %.8f', [m + 1, Coeffs[i, m].PrimaryCoeff, Coeffs[i, m].ConstantTerm]));
     end;
-//
-//    for i := 0 to 2 - 1 do
-//    begin
-//      Coeffs[i].AX:= CONST_AM_LEVELS_PER_MODE[]
-//      SampledLevels[i]
-//    end;
+    //写入接收机,校验成功后存储
+
   end;
-
-
-
 end;
 
 procedure TSlopeCalibrateMeasure.Init;

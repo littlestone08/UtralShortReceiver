@@ -40,11 +40,11 @@ type
     ['{F36DF0F2-74FF-4A3C-85BD-46C00FFC43B3}']
     Procedure LevelDataFormat(Value : Integer); //0: orginal value  1: calibrated value
     Procedure SetCoeffValid(Value : Boolean); //false: Coeff invalid and not used  1: Coeff valid can used by leveldata format
-    Procedure SetAMCoeff(A0, B0, A1, B1, A2, B2: Double); //three coff to define the calibrateequtions:
-                                                          //1 : A0 * x + B0
-                                                          //2 : A1 * x + B1
-                                                          //3 : A2 * x + B2
-    Procedure SetFMCoeff(A0, B0, A1, B1, A2, B2: Double); //same with SetAMCoeff
+    Procedure SetAMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single); //three coff to define the calibrateequtions:
+                                                          //1 : A0 * x + B0   放大状态系数(小信号)
+                                                          //2 : A1 * x + B1   直通状态系数(中信号)
+                                                          //3 : A2 * x + B2   衰减状态系数(大信号)
+    Procedure SetFMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single); //same with SetAMCoeff
     Function  QueryCoeffInfo(var Value: TCoffReport): Boolean;     // the receiver will be report the coeff info as responding this command,
                                                           // the value will return to  TCoffReport struct,
                                                           // 此命令发送后，应该用消息循环等待一会儿，以处理串口发送出来的数据
@@ -56,6 +56,7 @@ type
   Private
     FCoffReport: TCoffReport;
     Procedure ProcessLevelCoffStatus(const Raw: String);
+    procedure SetCoeff(AM_FM_indicate: Byte; AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
   Public Type
     TJ16RawPaser = class(TJ08Receiver.TJ08RawParser)
     Protected
@@ -67,8 +68,8 @@ type
   Protected //interface
     Procedure LevelDataFormat(Value : Integer);
     Procedure SetCoeffValid(Value : Boolean);
-    Procedure SetAMCoeff(A0, B0, A1, B1, A2, B2: Double);
-    Procedure SetFMCoeff(A0, B0, A1, B1, A2, B2: Double);
+    Procedure SetAMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
+    Procedure SetFMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
     Function  QueryCoeffInfo(var Value: TCoffReport): Boolean;
     Procedure WriteToE2PROM;
   End;
@@ -130,26 +131,16 @@ begin
 end;
 
 procedure TJ16Receiver.LevelDataFormat(Value: Integer);
+const
+  L_Cmds: Array[0..1] of AnsiString = (#$7B#$05#$53#$00#$7D, #$7B#$05#$53#$01#$7D);
 begin
-
+  WriteRawData(PAnsiChar(L_Cmds[Value]), Length(L_Cmds[Value]));
 end;
 
 procedure TJ16Receiver.ProcessLevelCoffStatus(const Raw: String);
 begin
   FCoffReport.FromString(Raw);
   DebugText(PlumUtils.Buf2Hex(FCoffReport.ToString));
-//  lbCoffApplied.Caption:= IntToStr(L_frame.Applied);
-//  lbCoffValid.Caption:= IntToStr(L_Frame.Valid);
-//  ReverseCoffsByteOrder(L_Frame.AMCoff);
-//  ReverseCoffsByteOrder(L_Frame.FMCoff);
-//  FloatValue2Labels([
-//    L_Frame.AmCoff[0][0], L_Frame.AmCoff[0][1],
-//    L_Frame.AmCoff[1][0], L_Frame.AmCoff[1][1],
-//    L_Frame.AmCoff[2][0], L_Frame.AmCoff[2][1],
-//    L_Frame.FmCoff[0][0], L_Frame.FmCoff[0][1],
-//    L_Frame.FmCoff[1][0], L_Frame.FmCoff[1][1],
-//    L_Frame.FmCoff[2][0], L_Frame.FmCoff[2][1]]);
-
 end;
 
 Function TJ16Receiver.QueryCoeffInfo(var Value: TCoffReport): Boolean;
@@ -167,8 +158,7 @@ begin
     WaitMS(100);
     Inc(Try_Time);
   end;
-//  if FCoffReport.SOF = 0 then
-//    raise Exception.Create('QueryCoeffInfo Faild');
+
   if FCoffReport.SOF <> 0 then
   begin
     Value:= FCoffReport;
@@ -177,24 +167,7 @@ begin
 
 end;
 
-//Procedure ReverseCoffsByteOrder(var Coffs: TCoffs);
-//var
-//  i: Integer;
-//  Ptr: PDWord;
-//  Temp: DWORD;
-//  a: DWORD;
-//begin
-////  Ptr:= @Coffs;
-////  for i:= 0 to (SizeOf(Coffs) div SizeOf(Single)) - 1 do
-////  begin
-////    Temp:= ((PByte(Ptr) + 0)^ shl 24 ) or ((PByte(Ptr) + 1)^ shl 16) or
-////    ((PByte(Ptr) + 2)^ shl 8 ) or ((PByte(Ptr) + 3)^ shl 0);
-////    Ptr^:= Temp;
-////    Inc(Ptr);
-////  end;
-//end;
 
-//LongRec
 
 Procedure ReverseDWORD(var  value: DWORD);
 type
@@ -218,40 +191,53 @@ var
   i: Integer;
   Ptr: PDWORD;
 begin
+  Ptr:= @Coffs;
   for i:= 0 to (SizeOf(Coffs) div SizeOf(Single)) - 1 do
   begin
     ReverseDWORD(Ptr^);
     Inc(Ptr);
   end;
 end;
-procedure TJ16Receiver.SetAMCoeff(A0, B0, A1, B1, A2, B2: Double);
+
+procedure TJ16Receiver.SetCoeff(AM_FM_indicate: Byte; AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
 var
   L_Packate: TSetCoffPackate;
   L_Buf: AnsiString;
 begin
-  L_Packate.Fill(0, A0, B0, A1, B1, A2, B2);
+  L_Packate.Fill(AM_FM_indicate, AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2);
 
   ReverseCoffsByteOrder(L_Packate.Coffs);
   L_Buf:= L_Packate.ToString;
   WriteRawData(PAnsiChar(L_Buf), Length(L_Buf));
 
   DebugText('写入串口：' + PlumUtils.Buf2Hex(AnsiLeftStr(L_Buf, Length(L_Buf))));
-  fds
+end;
+
+procedure TJ16Receiver.SetAMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
+begin
+  SetCoeff(0, AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2);
 end;
 
 procedure TJ16Receiver.SetCoeffValid(Value: Boolean);
+const
+  L_Cmds: Array[0..1] of String = (#$7B#$05#$54#$00#$7D, #$7B#$05#$54#$01#$7D);
 begin
-
+  if Value then
+    WriteRawData(PAnsiChar(L_Cmds[1]), Length(L_Cmds[1]))
+  else
+    WriteRawData(PAnsiChar(L_Cmds[0]), Length(L_Cmds[0]));
 end;
 
-procedure TJ16Receiver.SetFMCoeff(A0, B0, A1, B1, A2, B2: Double);
+procedure TJ16Receiver.SetFMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
 begin
-
+  SetCoeff(0, AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2);
 end;
 
 procedure TJ16Receiver.WriteToE2PROM;
+const
+  L_Cmds:Array[0..0] of String = (#$7B#$04#$57#$7D);
 begin
-
+  WriteRawData(PAnsiChar(L_Cmds[0]), Length(L_Cmds[0]));
 end;
 
 { TJ16Receiver.TJ16RawPaser }

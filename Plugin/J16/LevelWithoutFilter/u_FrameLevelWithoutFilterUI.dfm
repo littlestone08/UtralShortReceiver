@@ -1,0 +1,2 @@
+inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
+end

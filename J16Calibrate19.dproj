@@ -46,10 +46,10 @@
     <DCC_DcuOutput>.\dcu\debug</DCC_DcuOutput>
     <DCC_ObjOutput>.\dcu\debug</DCC_ObjOutput>
     <DCC_HppOutput>.\dcu\debug</DCC_HppOutput>
-    <DCC_UnitSearchPath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16</DCC_UnitSearchPath>
-    <DCC_ResourcePath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16</DCC_ResourcePath>
-    <DCC_ObjPath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16</DCC_ObjPath>
-    <DCC_IncludePath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16</DCC_IncludePath>
+    <DCC_UnitSearchPath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\SlopeCalibrate;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\LevelWithoutFilter</DCC_UnitSearchPath>
+    <DCC_ResourcePath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\SlopeCalibrate;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\LevelWithoutFilter</DCC_ResourcePath>
+    <DCC_ObjPath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\SlopeCalibrate;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\LevelWithoutFilter</DCC_ObjPath>
+    <DCC_IncludePath>D:\CodeGear\CnPack\CnWizards\Source;D:\CodeGear\cnvcl\Source\NetComm;D:\CodeGear\cnvcl\Source\Common;D:\CodeGear\cnvcl\Source\Graphics;D:\WORK170619\PlumComm;D:\CodeGear\XlsReadWriteII5\Source;D:\CodeGear\AutoUpgrader Pro 5.0.2\Sources;D:\CodeGear\cnvcl\Source\NonVisual;D:\CodeGear\nrComm Lib\Source;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\SlopeCalibrate;D:\Work\WORK180507\UtralShortReceiver\Plugin\J16\LevelWithoutFilter</DCC_IncludePath>
     <DCC_Define>Debug_Emu;DEBUG;TRIP_GPIB_CMD;BOOT_EXT_APP</DCC_Define>
   </PropertyGroup>
   <ProjectExtensions>
@@ -71,7 +71,7 @@
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
     <RcCompile Include="xlsx.rc">
-      <Form>xlsx.res</Form>
+      <Form>'xlsx.res'</Form>
     </RcCompile>
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448.pas" />
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448_Status.pas" />
@@ -79,15 +79,21 @@
     <DCCReference Include="D:\WORK170619\PlumComm\PlumUtils.pas" />
     <DCCReference Include="Plugin\J16\BT_TaskIntf.pas" />
     <DCCReference Include="Plugin\J16\BT_WeakGlobal.pas" />
-    <DCCReference Include="Plugin\J16\u_frameJ16SlopeCalibrateMeasureUI.pas">
-      <Form>FrameCustomExamineItemUI1</Form>
+    <DCCReference Include="Plugin\J16\LevelWithoutFilter\u_FrameLevelWithoutFilterUI.pas">
+      <Form>LevelWithoutFilterUI</Form>
       <DesignClass>TFrame</DesignClass>
     </DCCReference>
+    <DCCReference Include="Plugin\J16\LevelWithoutFilter\u_J16LevelWithoutFilterImp.pas" />
+    <DCCReference Include="Plugin\J16\SlopeCalibrate\u_frameJ16SlopeCalibrateMeasureUI.pas">
+      <Form>SlopeCalibrateMeasureUI</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="Plugin\J16\SlopeCalibrate\u_J16SlopeCalibrateMeasureImp.pas" />
     <DCCReference Include="Plugin\J16\u_J08Task.pas" />
     <DCCReference Include="Plugin\J16\u_J08TaskIntf.pas" />
     <DCCReference Include="Plugin\J16\u_J08WeakGlobal.pas" />
+    <DCCReference Include="Plugin\J16\u_J16CommonDef.pas" />
     <DCCReference Include="Plugin\J16\u_J16Receiver.pas" />
-    <DCCReference Include="Plugin\J16\u_J16SlopeCalibrateMeasureImp.pas" />
     <DCCReference Include="Plugin\J16\u_J16Utils.pas" />
     <DCCReference Include="uart\u_FrameUart.pas">
       <Form>frameUart</Form>

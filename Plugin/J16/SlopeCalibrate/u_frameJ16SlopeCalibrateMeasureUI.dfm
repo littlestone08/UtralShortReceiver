@@ -1,0 +1,2 @@
+inherited SlopeCalibrateMeasureUI: TSlopeCalibrateMeasureUI
+end

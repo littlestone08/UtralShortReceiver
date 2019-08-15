@@ -1,4 +1,4 @@
-unit u_frameJ16SlopeCalibrateMeasureUI;
+unit u_FrameLevelWithoutFilterUI;
 
 interface
 
@@ -7,15 +7,15 @@ uses
   Dialogs, u_frameExamineItemUIBase, StdCtrls, CnEdit, Gauges, ExtCtrls;
 
 type
-  TFrameCustomExamineItemUI1 = class(TFrameCustomExamineItemUI)
+  TLevelWithoutFilterUI = class(TFrameCustomExamineItemUI)
   private
     { Private declarations }
   public
     { Public declarations }
   end;
 
-//var
-//  FrameCustomExamineItemUI1: TFrameCustomExamineItemUI1;
+var
+  LevelWithoutFilterUI: TLevelWithoutFilterUI;
 
 implementation
 

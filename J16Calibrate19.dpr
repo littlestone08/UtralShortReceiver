@@ -27,10 +27,13 @@ uses
   u_J08TaskIntf in 'Plugin\J16\u_J08TaskIntf.pas',
   BT_TaskIntf in 'Plugin\J16\BT_TaskIntf.pas',
   u_J16Utils in 'Plugin\J16\u_J16Utils.pas',
-  u_J16SlopeCalibrateMeasureImp in 'Plugin\J16\u_J16SlopeCalibrateMeasureImp.pas',
-  u_frameJ16SlopeCalibrateMeasureUI in 'Plugin\J16\u_frameJ16SlopeCalibrateMeasureUI.pas' {FrameCustomExamineItemUI1: TFrame},
   u_J16Receiver in 'Plugin\J16\u_J16Receiver.pas',
-  PlumUtils in 'D:\WORK170619\PlumComm\PlumUtils.pas';
+  PlumUtils in 'D:\WORK170619\PlumComm\PlumUtils.pas',
+  u_J16CommonDef in 'Plugin\J16\u_J16CommonDef.pas',
+  u_frameJ16SlopeCalibrateMeasureUI in 'Plugin\J16\SlopeCalibrate\u_frameJ16SlopeCalibrateMeasureUI.pas' {SlopeCalibrateMeasureUI: TFrame},
+  u_J16SlopeCalibrateMeasureImp in 'Plugin\J16\SlopeCalibrate\u_J16SlopeCalibrateMeasureImp.pas',
+  u_J16LevelWithoutFilterImp in 'Plugin\J16\LevelWithoutFilter\u_J16LevelWithoutFilterImp.pas',
+  u_FrameLevelWithoutFilterUI in 'Plugin\J16\LevelWithoutFilter\u_FrameLevelWithoutFilterUI.pas' {LevelWithoutFilterUI: TFrame};
 
 {$R *.res}
 

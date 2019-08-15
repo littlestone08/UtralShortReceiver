@@ -44,6 +44,8 @@ type
                                                           //1 : A0 * x + B0   放大状态系数(小信号)
                                                           //2 : A1 * x + B1   直通状态系数(中信号)
                                                           //3 : A2 * x + B2   衰减状态系数(大信号)
+    Procedure SetAMCoeff2(const Value: TCoffs);
+    Procedure SetFMCoeff2(const Value: TCoffs);
     Procedure SetFMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single); //same with SetAMCoeff
     Function  QueryCoeffInfo(var Value: TCoffReport): Boolean;     // the receiver will be report the coeff info as responding this command,
                                                           // the value will return to  TCoffReport struct,
@@ -72,6 +74,8 @@ type
     Procedure SetFMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
     Function  QueryCoeffInfo(var Value: TCoffReport): Boolean;
     Procedure WriteToE2PROM;
+    Procedure SetAMCoeff2(const Value: TCoffs);
+    Procedure SetFMCoeff2(const Value: TCoffs);    
   End;
 
 implementation
@@ -149,6 +153,7 @@ const
 var
   Try_Time: Integer;
 begin
+  {$IFNDEF Debug_Emu}
   Result:= False;
   WriteRawData(PAnsiChar(L_Cmd), Length(L_Cmd));
   FCoffReport.SOF:= 0;
@@ -164,7 +169,9 @@ begin
     Value:= FCoffReport;
     Result:= True;
   end;
-
+  {$ELSE}
+  Result:= True;
+  {$ENDIF}
 end;
 
 
@@ -218,6 +225,14 @@ begin
   SetCoeff(0, AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2);
 end;
 
+procedure TJ16Receiver.SetAMCoeff2(const Value: TCoffs);
+begin
+  SetCoeff(0,
+            Value[0, 0], Value[0, 1],
+            Value[1, 0], Value[1, 1],
+            Value[2, 0], Value[2, 1]);
+end;
+
 procedure TJ16Receiver.SetCoeffValid(Value: Boolean);
 const
   L_Cmds: Array[0..1] of String = (#$7B#$05#$54#$00#$7D, #$7B#$05#$54#$01#$7D);
@@ -231,6 +246,14 @@ end;
 procedure TJ16Receiver.SetFMCoeff(AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
 begin
   SetCoeff(0, AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2);
+end;
+
+procedure TJ16Receiver.SetFMCoeff2(const Value: TCoffs);
+begin
+  SetCoeff(1,
+            Value[0, 0], Value[0, 1],
+            Value[1, 0], Value[1, 1],
+            Value[2, 0], Value[2, 1]);
 end;
 
 procedure TJ16Receiver.WriteToE2PROM;

@@ -8,6 +8,7 @@ uses
 
 type
   TLevelWithoutFilterUI = class(TFrameCustomExamineItemUI)
+    procedure FrameClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -20,5 +21,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TLevelWithoutFilterUI.FrameClick(Sender: TObject);
+begin
+  inherited;
+  self.get
+end;
 
 end.

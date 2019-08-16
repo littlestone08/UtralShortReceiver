@@ -347,7 +347,8 @@ begin
   {TODO:  注意默认波特率的配置}
 
   {$IFNDEF EMU}
-  g_RS232.StartComm;
+  if Not g_RS232.Connected then
+    g_RS232.StartComm;
   {$ENDIF}
   {$IFDEF DEBUG}
   CnDebugger.LogMsg(Format('打开串口 %s', [g_RS232.CommName]));

@@ -16,8 +16,8 @@ Initialization
   g_ExamineRegList:= TExamineRegList.Create;
   With TExamineRegList(g_ExamineRegList) do
   begin
-    Add(TLevelWithoutFilterMeasure, TLevelWithoutFilterUI);
     Add(TSlopeCalibrateMeasure, TSlopeCalibrateMeasureUI);
+    Add(TLevelWithoutFilterMeasure, TLevelWithoutFilterUI);
   end;
 
 Finalization

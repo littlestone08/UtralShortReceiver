@@ -71,7 +71,7 @@
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
     <RcCompile Include="xlsx.rc">
-      <Form>'xlsx.res'</Form>
+      <Form>xlsx.res</Form>
     </RcCompile>
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448.pas" />
     <DCCReference Include="D:\WORK170619\PlumComm\GPIB2\NI448_Status.pas" />

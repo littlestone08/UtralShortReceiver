@@ -88,6 +88,7 @@ begin
 //  inherited;
   CurrStep:= 0;
   TotalStep:= 15;
+  Log('-----------准备进行斜率校准------------');  
 //  Inc(CurrStep);
 //  FUI.set_Percent((CurrStep / TotalStep) * 100);
 //  CheckWishStop();
@@ -188,7 +189,7 @@ begin
 
       {$IFNDEF Debug_Emu}
       InternalCheck(Radio.SetFrequency(CONST_MODULS[i], CONST_MODULS_FREQS[i]),
-            '设置AM频率失败');
+            '设置频率失败');
       {$ENDIF}
 
       Log(Format('接收机设置: %s  %d KHz', [CONST_STR_MODUL[CONST_MODULS[i]],
@@ -215,7 +216,7 @@ begin
           //InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM, L_DummyHint),  '读取电平值失败');
           //使用预置数模拟
           {$ELSE}
-          InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM),  '读取电平值失败');
+          InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], CONST_MODULS[i]),  '读取电平值失败');
           {$ENDIF}
           Log(Format('读取到接收机电平值: %.0f', [SampledLevels[i, j, k]]));
 
@@ -308,7 +309,8 @@ end;
 procedure TSlopeCalibrateMeasure.Init;
 begin
   inherited;
-  FExamineCaption:= '电平测试(无滤波器)';
+  FExamineCaption:= '斜率校准';
+
 //  FExamineCaption:= '一本振';
 //  ExtractFileFromRes('LIB_INOUT32', 'inpout32.dll');
 //  ExtractFileFromRes('LIB_ELEXS', 'ELEXS.dll');

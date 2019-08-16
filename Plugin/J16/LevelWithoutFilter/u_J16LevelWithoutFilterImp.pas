@@ -2,12 +2,18 @@ unit u_J16LevelWithoutFilterImp;
 
 interface
 uses
-  Classes, SysUtils, u_ExamineImp, u_J08TaskIntf, u_J08Task;
+  Classes, SysUtils, u_ExamineImp, u_J08TaskIntf, u_J08Task, u_J16CommonDef;
 type
-  TLevelWithoutFilterMeasure = Class(TCustomExamineItem)
+  TLevelWithoutFilterMeasure = Class(TCustomExamineItem, IStatText2XLS)
   Private
 //    FLog: TLO1MesureLog;
     Procedure InternalCheck(const Value: Boolean; const ExceptionInfo: String);
+  Private
+    FLevelDataFileList: TStringList;
+    procedure CallBack_TextFileFound(const FileName: string; const Info: TSearchRec;
+      var Abort: Boolean);
+  Protected //inteface IStatText2XLS
+    Procedure DoStatText2XLS;
   Protected
     Procedure Init; Override;
     Procedure DoProcess; Override;
@@ -18,9 +24,16 @@ type
 implementation
 uses
   u_GPIB_DEV2, u_J16Receiver, u_ExamineGlobal, u_J08WeakGlobal, PlumUtils, u_J16Utils,
-  u_CommonDef;
+  u_CommonDef, CnCommon, XLSReadWriteII5, XLSSheetData5;
 
 { TLevelWithoutFilterMeasure }
+
+procedure TLevelWithoutFilterMeasure.CallBack_TextFileFound(
+  const FileName: string; const Info: TSearchRec; var Abort: Boolean);
+begin
+  self.FLevelDataFileList.Add(FileName);
+  Log(FileName);
+end;
 
 procedure TLevelWithoutFilterMeasure.DoProcess;
 {------------------------------------------------------------------------------
@@ -50,7 +63,7 @@ var
     StrList: TStringList;
     TextDir: STring;
   begin
-    TextDir:= Excel_Dir +  '无滤波器数据\';
+    TextDir:= TextDir_NoFilter();
     if Not DirectoryExists(TextDir) then
     begin
       ForceDirectories(TextDir);
@@ -178,10 +191,58 @@ begin
   end;
 end;
 
+procedure TLevelWithoutFilterMeasure.DoStatText2XLS;
+var
+  Level: Array[0..1] of Array[0..21] of Integer;
+  LevelStrs: TStringList;
+  Procedure ReadLevelValue(FileName: String);
+  var
+    Ptr: PInteger;
+    i: Integer;
+  begin
+    Ptr:= @Level[0, 0];
+    LevelStrs.LoadFromFile(FileName);
+    if LevelStrs.Count <> 44 then
+      Raise Exception.Create('数据记录的行数不正确');
+    for i := 0 to LevelStrs.Count - 1 do
+    begin
+      Ptr^:= StrToInt(LevelStrs[i]);
+      Inc(Ptr);
+    end;
+  end;
+var
+  i: Integer;
+  iCol: Integer;
+const
+  AM_ROW_STR = '1'
+  FM_ROW_STR = '24';
+begin
+  Log('统计文本被调用');
+  FLevelDataFileList:= TStringList.Create;
+  LevelStrs:= TStringList.Create;
+  try
+    CnCommon.FindFile(TextDir_NoFilter(), '*.txt',  CallBack_TextFileFound);
+    FLevelDataFileList.Sort();
+    //每个文件共44个数
+    Log('共找到' + IntToStr(FLevelDataFileList.Count) + '个文件');
+    //把文件中的数据填充到EXCEL中, 前22个是AM数据, 从B2开始(B1是标题),
+    //后22是FM数据,从B25开始((B24是标题))
+    for i := 0 to FLevelDataFileList.Count - 1 do
+    begin
+      ReadLevelValue(FLevelDataFileList[i]);
+      //Level[0]数组填充到B2开始的列,B1为SN号
+      //Level[1]数组填充到B25开始的列,B24为SN号
+    end;
+  finally
+    LevelStrs.Free;
+    FLevelDataFileList.Free;
+  end;
+end;
+
 procedure TLevelWithoutFilterMeasure.Init;
 begin
   inherited;
-  FExamineCaption:= '电平测试(无滤波器)';
+  FExamineCaption:= '电平测试'#$D#$A'(无滤波器)';
 //  FExamineCaption:= '一本振';
 //  ExtractFileFromRes('LIB_INOUT32', 'inpout32.dll');
 //  ExtractFileFromRes('LIB_ELEXS', 'ELEXS.dll');

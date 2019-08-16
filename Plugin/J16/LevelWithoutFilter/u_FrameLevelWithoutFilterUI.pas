@@ -8,7 +8,8 @@ uses
 
 type
   TLevelWithoutFilterUI = class(TFrameCustomExamineItemUI)
-    procedure FrameClick(Sender: TObject);
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -19,13 +20,15 @@ var
   LevelWithoutFilterUI: TLevelWithoutFilterUI;
 
 implementation
+uses
+  u_J16CommonDef;
 
 {$R *.dfm}
 
-procedure TLevelWithoutFilterUI.FrameClick(Sender: TObject);
+procedure TLevelWithoutFilterUI.Button1Click(Sender: TObject);
 begin
   inherited;
-  self.get
+  (get_ExamineItem as  IStatText2XLS).DoStatText2XLS;
 end;
 
 end.

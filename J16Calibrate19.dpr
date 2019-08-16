@@ -1,6 +1,7 @@
 program J16Calibrate19;
 
 {$R 'xlsx.res' 'xlsx.rc'}
+{$R 'Plugin\J16\LevelWithoutFilter\LevelWithoutFilter.res' 'Plugin\J16\LevelWithoutFilter\LevelWithoutFilter.rc'}
 
 uses
   Forms,

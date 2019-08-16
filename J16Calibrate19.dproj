@@ -70,6 +70,9 @@
     <DelphiCompile Include="J16Calibrate19.dpr">
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
+    <RcCompile Include="Plugin\J16\LevelWithoutFilter\LevelWithoutFilter.rc">
+      <Form>Plugin\J16\LevelWithoutFilter\LevelWithoutFilter.res</Form>
+    </RcCompile>
     <RcCompile Include="xlsx.rc">
       <Form>xlsx.res</Form>
     </RcCompile>

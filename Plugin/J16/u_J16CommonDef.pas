@@ -10,14 +10,22 @@ type
   end;
 
 
-  Function TextDir_NoFilter: String;
+
+
+  PLevelWithFilterOption = ^TLevelWithFilterOption;
+  TLevelWithFilterOption = Record
+    ManualMode: Integer;
+  End;
 //type
 //  TSlopeCalibrateSetting = Record
 //    InsLoss: Double;
 //  End;
+   Function TextDir_NoFilter: String;
 implementation
+uses
+  CnCommon;
   Function TextDir_NoFilter: String;
   begin
-    Result:= Excel_Dir +  '无滤波器数据\';
+    Result:= _CnExtractFilePath(ParamStr(0)) + 'Excel\'+ '无滤波器数据\';
   end;
 end.

@@ -34,7 +34,9 @@ uses
   u_frameJ16SlopeCalibrateMeasureUI in 'Plugin\J16\SlopeCalibrate\u_frameJ16SlopeCalibrateMeasureUI.pas' {SlopeCalibrateMeasureUI: TFrame},
   u_J16SlopeCalibrateMeasureImp in 'Plugin\J16\SlopeCalibrate\u_J16SlopeCalibrateMeasureImp.pas',
   u_J16LevelWithoutFilterImp in 'Plugin\J16\LevelWithoutFilter\u_J16LevelWithoutFilterImp.pas',
-  u_FrameLevelWithoutFilterUI in 'Plugin\J16\LevelWithoutFilter\u_FrameLevelWithoutFilterUI.pas' {LevelWithoutFilterUI: TFrame};
+  u_J16LevelWithFilterImp in 'Plugin\J16\LevelWithFilter\u_J16LevelWithFilterImp.pas',
+  u_FrameLevelWithoutFilterUI in 'Plugin\J16\LevelWithoutFilter\u_FrameLevelWithoutFilterUI.pas' {LevelWithoutFilterUI: TFrame},
+  u_FrameLevelWithFilterUI in 'Plugin\J16\LevelWithFilter\u_FrameLevelWithFilterUI.pas' {LevelWithFilterUI: TFrame};
 
 {$R *.res}
 

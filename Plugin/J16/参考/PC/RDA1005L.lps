@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="69">
+    <Units Count="70">
       <Unit0>
         <Filename Value="RDA1005L.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -484,11 +484,18 @@
       </Unit67>
       <Unit68>
         <Filename Value="..\..\SlopeCalibrate\u_frameJ16SlopeCalibrateMeasureUI.pas"/>
-        <IsVisibleTab Value="True"/>
+        <HasResources Value="True"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit68>
+      <Unit69>
+        <Filename Value="..\..\LevelWithFilter\u_J16LevelWithFilterImp.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit69>
     </Units>
     <JumpHistory Count="1">
       <Position1>

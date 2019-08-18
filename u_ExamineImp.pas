@@ -2,7 +2,7 @@
 
 interface
 uses
-  Classes, SysUtils, Windows, Graphics,Math, u_CommonDef, PlumUtils, XLSSheetData5, Xc12Utils5,
+  Classes, SysUtils, Windows, StrUtils, Graphics,Math, u_CommonDef, PlumUtils, XLSSheetData5, Xc12Utils5,
   u_frameExamineItemUIBase, u_frameExamineItemUI, CnCommon;
 
 
@@ -506,8 +506,14 @@ begin
       end;
     end;
   end;
+
+
+  ;
   Log('****************************************');
-  Log('*  SN: ' + ProductSN +          '    < ' + FExamineCaption + ' >     ');
+  Log('*  SN: ' + ProductSN +
+        '    < ' +
+        StringReplace(FExamineCaption, #$D#$A, '', [rfReplaceAll, rfIgnoreCase]) +
+        ' >     ');
   Log('****************************************');
   DoProcess;
 end;

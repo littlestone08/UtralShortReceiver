@@ -82,6 +82,11 @@
     <DCCReference Include="D:\WORK170619\PlumComm\PlumUtils.pas" />
     <DCCReference Include="Plugin\J16\BT_TaskIntf.pas" />
     <DCCReference Include="Plugin\J16\BT_WeakGlobal.pas" />
+    <DCCReference Include="Plugin\J16\LevelWithFilter\u_FrameLevelWithFilterUI.pas">
+      <Form>LevelWithFilterUI</Form>
+      <DesignClass>TFrame</DesignClass>
+    </DCCReference>
+    <DCCReference Include="Plugin\J16\LevelWithFilter\u_J16LevelWithFilterImp.pas" />
     <DCCReference Include="Plugin\J16\LevelWithoutFilter\u_FrameLevelWithoutFilterUI.pas">
       <Form>LevelWithoutFilterUI</Form>
       <DesignClass>TFrame</DesignClass>

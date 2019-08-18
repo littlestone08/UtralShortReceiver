@@ -9,7 +9,10 @@ uses
   u_frameJ16SlopeCalibrateMeasureUI,
 
   u_J16LevelWithoutFilterImp,
-  u_FrameLevelWithoutFilterUI;
+  u_FrameLevelWithoutFilterUI,
+
+  u_J16LevelWithFilterImp,
+  u_FrameLevelWithFilterUI;
 implementation
 
 Initialization
@@ -18,6 +21,7 @@ Initialization
   begin
     Add(TSlopeCalibrateMeasure, TSlopeCalibrateMeasureUI);
     Add(TLevelWithoutFilterMeasure, TLevelWithoutFilterUI);
+    Add(TLevelWithFilterMeasure, TLevelWithFilterUI);
   end;
 
 Finalization

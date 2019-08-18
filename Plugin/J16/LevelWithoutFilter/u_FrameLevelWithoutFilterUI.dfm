@@ -3,7 +3,12 @@ inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
   ExplicitHeight = 77
   inherited Panel1: TPanel
     Height = 77
+    ExplicitHeight = 77
     inherited Label1: TLabel
+      Top = 32
+      ExplicitTop = 32
+    end
+    inherited lbExamineItemCaption: TLabel
       Top = 32
       ExplicitTop = 32
     end

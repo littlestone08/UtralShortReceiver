@@ -26,6 +26,6 @@ uses
   CnCommon;
   Function TextDir_NoFilter: String;
   begin
-    Result:= _CnExtractFilePath(ParamStr(0)) + 'Excel\'+ '无滤波器数据\';
+    Result:= _CnExtractFilePath(ParamStr(0)) + 'Excel\'+ '数据\';
   end;
 end.

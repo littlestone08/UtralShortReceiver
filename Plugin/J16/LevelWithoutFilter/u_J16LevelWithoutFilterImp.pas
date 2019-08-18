@@ -233,9 +233,9 @@ var
   rs: TResourceStream;
   wb: TXLSReadWriteII5;
   CalcExp: String;
-const
-  AM_ROW_STR = '1';
-  FM_ROW_STR = '24';
+//const
+//  AM_ROW_STR = '1';
+//  FM_ROW_STR = '24';
 begin
   Log('统计文本被调用');
   FLevelDataFileList:= TStringList.Create;

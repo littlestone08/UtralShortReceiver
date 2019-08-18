@@ -27,6 +27,9 @@ uses
   u_GPIB_DEV2, u_J16Receiver, u_ExamineGlobal, u_J08WeakGlobal, PlumUtils, u_J16Utils,
   u_CommonDef, CnCommon, XLSReadWriteII5, XLSSheetData5, Xc12Utils5;
 
+
+const
+  CONST_TXT_EXTFILENAME:  Array[dmmAmpli..dmmDirect] of String = ('.放大.txt', '.直通.txt');
 { TLevelWithFilterMeasure }
 
 procedure TLevelWithFilterMeasure.CallBack_TextFileFound(
@@ -54,9 +57,9 @@ const
     (20700, 25000, 30000),
     (88000, 98000, 108000)
   );
-  CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 90000);
-  CONST_TEST_LEVELS: Array[0..21] of Integer = (0, -10, -20, -30, -40, -50, -60,
-        -70, -80, -90, -100, -100, -90, -80, -70, -60, -50, -40, -30, -20, -10, 0);
+//  CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 90000);
+//  CONST_TEST_LEVELS: Array[0..21] of Integer = (0, -10, -20, -30, -40, -50, -60,
+//        -70, -80, -90, -100, -100, -90, -80, -70, -60, -50, -40, -30, -20, -10, 0);
 var
   InsLost: Double;
   CurrStep, TotalStep: Integer;
@@ -81,7 +84,7 @@ var
     begin
       ForceDirectories(TextDir);
     end;
-    TextFileName:= TextDir  + ProductSN  + '_' + CONST_STR_DEVMANUALMODE[ManualMode] +'.txt';
+    TextFileName:= TextDir  + ProductSN  + CONST_TXT_EXTFILENAME[ManualMode];
     StrList:= TStringList.Create;
     try
       for iBand := 0 to Length(LevelsMeasured) - 1 do
@@ -219,16 +222,16 @@ end;
 
 procedure TLevelWithFilterMeasure.DoStatText2XLS;
 var
-  Level: Array[0..1] of Array[0..21] of Integer;
+  Level: Array[0..29] of Integer;
   LevelStrs: TStringList;
   Procedure ReadLevelValue(FileName: String);
   var
     Ptr: PInteger;
     i: Integer;
   begin
-    Ptr:= @Level[0, 0];
+    Ptr:= @Level[0];
     LevelStrs.LoadFromFile(FileName);
-    if LevelStrs.Count <> 42 then
+    if LevelStrs.Count <> 30 then
       Raise Exception.Create('数据记录的行数不正确');
     for i := 0 to LevelStrs.Count - 1 do
     begin
@@ -245,106 +248,133 @@ var
   ASheet: TXLSWorksheet;
   rs: TResourceStream;
   wb: TXLSReadWriteII5;
-  CalcExp: String;
-const
-  AM_ROW_STR = '1';
-  FM_ROW_STR = '24';
+  RangeExp: String;
+//const
+//  AM_ROW_STR = '1';
+//  FM_ROW_STR = '24';
+var
+  iMode: TJ08_DevManualMode;
 begin
   Log('统计文本被调用');
   FLevelDataFileList:= TStringList.Create;
   LevelStrs:= TStringList.Create;
   try
-    CnCommon.FindFile(TextDir_NoFilter(), '*.txt',  CallBack_TextFileFound);
-    FLevelDataFileList.Sort();
-    //每个文件共44个数
-    Log('共找到' + IntToStr(FLevelDataFileList.Count) + '个文件');
-    //把文件中的数据填充到EXCEL中, 前22个是AM数据, 从B2开始(B1是标题),
-    //后22是FM数据,从B25开始((B24是标题))
-    if FLevelDataFileList.Count > 0 then
+    for iMode := dmmAmpli to dmmDirect do
     begin
-      wb:= TXLSReadWriteII5.Create(Nil);
-      try
-        StatXLSFileName:=  TextDir_NoFilter() + '\数据统计.xlsx';
-        if FileExists(StatXLSFileName) then
-        begin
-          wb.LoadFromFile(StatXLSFilename);
-        end
-        else
-        begin
-          rs:= TResourceStream.Create(HInstance, 'StatWithoutFilterTemplate', 'MYFILE');
-          try
-            wb.LoadFromStream(rs);
-          finally
-            rs.Free;
-          end;
-        end;
-        ASheet:= wb.Sheets[0];
-        //B01:  iCol = 1, iRow =  0
-        //B24: iCol = 1, iRow = 23
-        iCol:= 1;
-        for i := 0 to FLevelDataFileList.Count - 1 do
-        begin
-          ReadLevelValue(FLevelDataFileList[i]);
+      FLevelDataFileList.Clear();
+      CnCommon.FindFile(TextDir_NoFilter(), '*' + CONST_TXT_EXTFILENAME[iMode],  CallBack_TextFileFound);
+      FLevelDataFileList.Sort();
+      //每个文件共44个数
+      Log('共找到' + IntToStr(FLevelDataFileList.Count) + '个文件');
+      //把文件中的数据填充到EXCEL中, 从B49开始(B47是标题), 从B94开始((B92是标题))
 
-          SN:= ExtractFileName(FLevelDataFileList[i]);
-          SetLength(SN, Length(SN) - Length(ExtractFileExt(SN)));
-
-          //Level[0]数组填充到B2开始的列,B1为SN号
-
-          iRow:= 0;
-          ASheet.AsString[iCol, iRow]:= SN;
-          for iLine := 0 to Length(Level[0]) - 1  do
+      if FLevelDataFileList.Count > 0 then
+      begin
+        wb:= TXLSReadWriteII5.Create(Nil);
+        try
+          StatXLSFileName:=  TextDir_NoFilter() + '\数据统计.xlsx';
+          if FileExists(StatXLSFileName) then
           begin
-            ASheet.AsInteger[iCol, iRow + iLine + 1]:= Level[0, iLine];
-          end;
-          //Level[1]数组填充到B25开始的列,B24为SN号
-
-          iRow:= 23;
-          ASheet.AsString[iCol, iRow]:= SN;
-          for iLine := 0 to Length(Level[1]) - 3 do
+            wb.LoadFromFile(StatXLSFilename);
+          end
+          else
           begin
-            ASheet.AsInteger[iCol, iRow + iLine + 1]:= Level[1, iLine];
+            rs:= TResourceStream.Create(HInstance, 'StatWithoutFilterTemplate', 'MYFILE');
+            try
+              wb.LoadFromStream(rs);
+            finally
+              rs.Free;
+            end;
           end;
-          //RefStrToColRow()
-          Inc(iCol);
+          ASheet:= wb.Sheets[0];
+          //B01:  iCol = 1, iRow =  0
+          //B24: iCol = 1, iRow = 23
+          iCol:= 1;
+          for i := 0 to FLevelDataFileList.Count - 1 do
+          begin
+            ReadLevelValue(FLevelDataFileList[i]);
+
+            SN:= ExtractFileName(FLevelDataFileList[i]);
+            SetLength(SN, Length(SN) - Length(ExtractFileExt(SN)));
+            SetLength(SN, Length(SN) - Length(ExtractFileExt(SN)));
+
+
+
+            if iMode = dmmAmpli then
+              iRow:= 46
+            else
+              iRow:= 91;
+            ASheet.AsString[iCol, iRow]:= SN;
+
+            Inc(iRow);
+
+            for iLine := 0 to Length(Level) - 1  do
+            begin
+              if (iLine > 0) and (iLine Mod 3 = 0) then
+              begin
+                RangeExp:= Format('%s:%s', [
+                  ColRowToRefStr(iCol, iRow + iLine - 2),
+                  ColRowToRefStr(iCol, iRow + iLine)
+                  ]);
+                ASheet.AsFormula[iCol, iRow + iLine + 1]:=
+                  Format('Max(%s) - Min(%s)', [RangeExp, RangeExp]);
+                Inc(iRow);
+              end;
+              ASheet.AsInteger[iCol, iRow + iLine + 1]:= Level[iLine];
+            end;
+
+            if (iLine > 0) and (iLine Mod 3 = 0) then
+            begin
+              RangeExp:= Format('%s:%s', [
+                ColRowToRefStr(iCol, iRow + iLine - 2),
+                ColRowToRefStr(iCol, iRow + iLine)
+                ]);
+              ASheet.AsFormula[iCol, iRow + iLine + 1]:=
+                Format('Max(%s) - Min(%s)', [RangeExp, RangeExp]);
+            end;
+
+            Inc(iCol);
+            break;
+          end;
+
+//          //填写公式, 每行的最小最大和差值
+//          //COL: 1~iCol
+//          //ROW: 1~22, 24~43
+//          ASheet.AsString[iCol + 0, 0]:= '最小值';
+//          ASheet.AsString[iCol + 1, 0]:= '最大值';
+//          ASheet.AsString[iCol + 2, 0]:= '差值';
+//          for i := 1 to 22 do
+//          begin
+//            CalcExp:= 'Min(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
+//            ASheet.AsFormula[iCol + 0, i]:= CalcExp;
+//
+//            CalcExp:= 'Max(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
+//            ASheet.AsFormula[iCol + 1, i]:= CalcExp;
+//
+//            CalcExp:= ColRowToRefStr(iCol + 1, i) + ' - ' + ColRowToRefStr(iCol + 0, i);
+//            ASheet.AsFormula[iCol + 2, i]:= CalcExp;
+//          end;
+//
+//          ASheet.AsString[iCol + 0, 23]:= '最小值';
+//          ASheet.AsString[iCol + 1, 23]:= '最大值';
+//          ASheet.AsString[iCol + 2, 23]:= '差值';
+//          for i := 24 to 43 do
+//          begin
+//            CalcExp:= 'Min(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
+//            ASheet.AsFormula[iCol + 0, i]:= CalcExp;
+//
+//            CalcExp:= 'Max(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
+//            ASheet.AsFormula[iCol + 1, i]:= CalcExp;
+//
+//            CalcExp:= ColRowToRefStr(iCol + 1, i) + ' - ' + ColRowToRefStr(iCol + 0, i);
+//            ASheet.AsFormula[iCol + 2, i]:= CalcExp;
+//          end;
+
+          wb.SaveToFile(StatXLSFileName);
+          Log('统计完成');
+        finally
+          wb.Free;
         end;
-        //填写公式, 每行的最小最大和差值
-        //COL: 1~iCol
-        //ROW: 1~22, 24~43
-        ASheet.AsString[iCol + 0, 0]:= '最小值';
-        ASheet.AsString[iCol + 1, 0]:= '最大值';
-        ASheet.AsString[iCol + 2, 0]:= '差值';
-        for i := 1 to 22 do
-        begin
-          CalcExp:= 'Min(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-          ASheet.AsFormula[iCol + 0, i]:= CalcExp;
-
-          CalcExp:= 'Max(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-          ASheet.AsFormula[iCol + 1, i]:= CalcExp;
-
-          CalcExp:= ColRowToRefStr(iCol + 1, i) + ' - ' + ColRowToRefStr(iCol + 0, i);
-          ASheet.AsFormula[iCol + 2, i]:= CalcExp;
-        end;
-
-        ASheet.AsString[iCol + 0, 23]:= '最小值';
-        ASheet.AsString[iCol + 1, 23]:= '最大值';
-        ASheet.AsString[iCol + 2, 23]:= '差值';
-        for i := 24 to 43 do
-        begin
-          CalcExp:= 'Min(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-          ASheet.AsFormula[iCol + 0, i]:= CalcExp;
-
-          CalcExp:= 'Max(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-          ASheet.AsFormula[iCol + 1, i]:= CalcExp;
-
-          CalcExp:= ColRowToRefStr(iCol + 1, i) + ' - ' + ColRowToRefStr(iCol + 0, i);
-          ASheet.AsFormula[iCol + 2, i]:= CalcExp;
-        end;
-
-        wb.SaveToFile(StatXLSFileName);
-        Log('统计完成');
-      finally
-        wb.Free;
       end;
     end;
   finally

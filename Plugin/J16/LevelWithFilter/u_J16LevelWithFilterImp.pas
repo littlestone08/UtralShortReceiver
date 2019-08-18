@@ -107,6 +107,7 @@ var
   DummyHInt: STring;
 begin
   Log('------有滤波器电平读数测试(自动切换)------------');
+  Randomize();
   self.FUI.SyncUI(@Self.FOption);
   
   CurrStep:= 0;
@@ -249,9 +250,6 @@ var
   rs: TResourceStream;
   wb: TXLSReadWriteII5;
   RangeExp: String;
-//const
-//  AM_ROW_STR = '1';
-//  FM_ROW_STR = '24';
 var
   iMode: TJ08_DevManualMode;
 begin
@@ -279,7 +277,7 @@ begin
           end
           else
           begin
-            rs:= TResourceStream.Create(HInstance, 'StatWithoutFilterTemplate', 'MYFILE');
+            rs:= TResourceStream.Create(HInstance, 'StatTemplate', 'MYFILE');
             try
               wb.LoadFromStream(rs);
             finally
@@ -287,8 +285,7 @@ begin
             end;
           end;
           ASheet:= wb.Sheets[0];
-          //B01:  iCol = 1, iRow =  0
-          //B24: iCol = 1, iRow = 23
+
           iCol:= 1;
           for i := 0 to FLevelDataFileList.Count - 1 do
           begin
@@ -334,42 +331,28 @@ begin
             end;
 
             Inc(iCol);
-            break;
           end;
 
-//          //填写公式, 每行的最小最大和差值
-//          //COL: 1~iCol
-//          //ROW: 1~22, 24~43
-//          ASheet.AsString[iCol + 0, 0]:= '最小值';
-//          ASheet.AsString[iCol + 1, 0]:= '最大值';
-//          ASheet.AsString[iCol + 2, 0]:= '差值';
-//          for i := 1 to 22 do
-//          begin
-//            CalcExp:= 'Min(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-//            ASheet.AsFormula[iCol + 0, i]:= CalcExp;
-//
-//            CalcExp:= 'Max(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-//            ASheet.AsFormula[iCol + 1, i]:= CalcExp;
-//
-//            CalcExp:= ColRowToRefStr(iCol + 1, i) + ' - ' + ColRowToRefStr(iCol + 0, i);
-//            ASheet.AsFormula[iCol + 2, i]:= CalcExp;
-//          end;
-//
-//          ASheet.AsString[iCol + 0, 23]:= '最小值';
-//          ASheet.AsString[iCol + 1, 23]:= '最大值';
-//          ASheet.AsString[iCol + 2, 23]:= '差值';
-//          for i := 24 to 43 do
-//          begin
-//            CalcExp:= 'Min(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-//            ASheet.AsFormula[iCol + 0, i]:= CalcExp;
-//
-//            CalcExp:= 'Max(' + ColRowToRefStr(1, i) + ':' + ColRowToRefStr(iCol - 1, i) +')';
-//            ASheet.AsFormula[iCol + 1, i]:= CalcExp;
-//
-//            CalcExp:= ColRowToRefStr(iCol + 1, i) + ' - ' + ColRowToRefStr(iCol + 0, i);
-//            ASheet.AsFormula[iCol + 2, i]:= CalcExp;
-//          end;
+          //填写公式, 每行的最小最大和差值
+          //COL: 1~iCol
+          if iMode = dmmAmpli then
+            iRow:= 46 //SN
+          else
+            iRow:= 91;//SN
 
+          ASheet.AsString[iCol + 0, iRow]:= '最小值';
+          ASheet.AsString[iCol + 1, iRow]:= '最大值';
+          ASheet.AsString[iCol + 2, iRow]:= '差值';
+          for i := 1 to 40 do
+          begin
+            RangeExp:= Format('%s:%s', [
+              ColRowToRefStr(1, iRow + 1 + i),
+              ColRowToRefStr(iCol - 1, iRow + 1 + i)
+              ]);
+            ASheet.AsFormula[iCol + 0, iRow + 1 + i]:= Format('Min(%s)', [RangeExp]);
+            ASheet.AsFormula[iCol + 1, iRow + 1 + i]:= Format('Max(%s)', [RangeExp]);
+            ASheet.AsFormula[iCol + 2, iRow + 1 + i]:= Format('Max(%s)-Min(%s)', [RangeExp, RangeExp]);
+          end;
           wb.SaveToFile(StatXLSFileName);
           Log('统计完成');
         finally

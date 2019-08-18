@@ -68,7 +68,7 @@ var
     begin
       ForceDirectories(TextDir);
     end;
-    TextFileName:= TextDir  + ProductSN  + '.txt';
+    TextFileName:= TextDir  + ProductSN  + '.无滤波器.txt';
     StrList:= TStringList.Create;
     try
       for i := 0 to Length(LevelsMeasured) - 1 do
@@ -241,7 +241,7 @@ begin
   FLevelDataFileList:= TStringList.Create;
   LevelStrs:= TStringList.Create;
   try
-    CnCommon.FindFile(TextDir_NoFilter(), '*.txt',  CallBack_TextFileFound);
+    CnCommon.FindFile(TextDir_NoFilter(), '*.无滤波器.txt',  CallBack_TextFileFound);
     FLevelDataFileList.Sort();
     //每个文件共44个数
     Log('共找到' + IntToStr(FLevelDataFileList.Count) + '个文件');
@@ -258,7 +258,7 @@ begin
         end
         else
         begin
-          rs:= TResourceStream.Create(HInstance, 'StatWithoutFilterTemplate', 'MYFILE');
+          rs:= TResourceStream.Create(HInstance, 'StatTemplate', 'MYFILE');
           try
             wb.LoadFromStream(rs);
           finally
@@ -274,6 +274,7 @@ begin
           ReadLevelValue(FLevelDataFileList[i]);
 
           SN:= ExtractFileName(FLevelDataFileList[i]);
+          SetLength(SN, Length(SN) - Length(ExtractFileExt(SN)));
           SetLength(SN, Length(SN) - Length(ExtractFileExt(SN)));
 
           //Level[0]数组填充到B2开始的列,B1为SN号

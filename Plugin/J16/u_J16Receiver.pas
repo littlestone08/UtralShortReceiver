@@ -77,7 +77,7 @@ type
     Procedure SetAMCoeff2(const Value: TCoffs);
     Procedure SetFMCoeff2(const Value: TCoffs);    
   End;
-
+Procedure ReverseCoffsByteOrder(var Coffs: TCoffs);
 implementation
 uses
   StrUtils, PlumUtils, Windows;
@@ -88,6 +88,37 @@ begin
 end;
 
 
+
+Procedure ReverseDWORD(var  value: DWORD);
+type
+  PtrLongRec = ^LongRec;
+var
+  PtrOld: PtrLongRec;
+  PtrNew: PtrLongRec;
+  RAW: LongInt;
+begin
+
+  PtrOld:= @Value;
+  PtrNew:= @Raw;
+  PtrNew.Bytes[0]:= PtrOld.Bytes[3];
+  PtrNew.Bytes[1]:= PtrOld.Bytes[2];
+  PtrNew.Bytes[2]:= PtrOld.Bytes[1];
+  PtrNew.Bytes[3]:= PtrOld.Bytes[0];
+  PLongInt(PtrOld)^:= Raw;
+end;
+
+Procedure ReverseCoffsByteOrder(var Coffs: TCoffs);
+var
+  i: Integer;
+  Ptr: PDWORD;
+begin
+  Ptr:= @Coffs;
+  for i:= 0 to (SizeOf(Coffs) div SizeOf(Single)) - 1 do
+  begin
+    ReverseDWORD(Ptr^);
+    Inc(Ptr);
+  end;
+end;
 { TCoffReport }
 
 procedure TCoffReport.FromString(const Raw: String);
@@ -144,6 +175,8 @@ end;
 procedure TJ16Receiver.ProcessLevelCoffStatus(const Raw: String);
 begin
   FCoffReport.FromString(Raw);
+  ReverseCoffsByteOrder(FCoffReport.AMCoff);
+  ReverseCoffsByteOrder(FCoffReport.FMCoff);
   DebugText(PlumUtils.Buf2Hex(FCoffReport.ToString));
 end;
 
@@ -175,36 +208,6 @@ begin
 end;
 
 
-
-Procedure ReverseDWORD(var  value: DWORD);
-type
-  PtrLongRec = ^LongRec;
-var
-  PtrOld: PtrLongRec;
-  PtrNew: PtrLongRec;
-  RAW: LongInt;
-begin
-  PtrOld:= @Value;
-  PtrNew:= @Raw;
-  PtrNew.Bytes[0]:= PtrOld.Bytes[3];
-  PtrNew.Bytes[1]:= PtrOld.Bytes[2];
-  PtrNew.Bytes[2]:= PtrOld.Bytes[1];
-  PtrNew.Bytes[3]:= PtrOld.Bytes[0];
-  PLongInt(PtrOld)^:= Raw;
-end;
-
-Procedure ReverseCoffsByteOrder(var Coffs: TCoffs);
-var
-  i: Integer;
-  Ptr: PDWORD;
-begin
-  Ptr:= @Coffs;
-  for i:= 0 to (SizeOf(Coffs) div SizeOf(Single)) - 1 do
-  begin
-    ReverseDWORD(Ptr^);
-    Inc(Ptr);
-  end;
-end;
 
 procedure TJ16Receiver.SetCoeff(AM_FM_indicate: Byte; AmpA0, AmpB0, DirA1, DirB1, AttenA2, AttenB2: Single);
 var

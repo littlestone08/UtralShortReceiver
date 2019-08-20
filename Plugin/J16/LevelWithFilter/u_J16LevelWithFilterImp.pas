@@ -137,8 +137,11 @@ begin
     if not Radio.ReceiverTrunedOn then
       Radio.OpenReceiver;
     Calibrator.SetCoeffValid( True );
+    WaitMS(100);
     Calibrator.LevelDataFormat( 1 );
+    WaitMS(100);
     InternalCheck(Radio.SetHiGain(damManual, ManualMode), '设置' + CONST_STR_DEVMANUALMODE[ManualMode] + '模式失败');
+    WaitMS(100);
     {$ENDIF}
 
     Log('打开接收机,上报校准后数据');
@@ -163,19 +166,19 @@ begin
 
         {$IFNDEF Debug_Emu}
         SG.SetFreqency(FreqKHz / 1000);
-        SG.SetLevelDbm(CONST_SG_LEVEL[FOption.ManualMode] + InsLost)
+        SG.SetLevelDbm(CONST_SG_LEVEL[FOption.ManualMode] + InsLost);
         SG.SetOnOff(True);
         {$ENDIF}
-        
+        WaitMS(200);
 
         {$IFNDEF Debug_Emu}
-        InternalCheck(Radio.SetFrequency(Modulate, FreqKHz),
+        InternalCheck(Radio.SetFrequency(Modulate, FreqKHz * 1000),
               '设置频率失败');
         {$ENDIF}
 
         //Log(Format('接收机设置: %s  %d KHz', [CONST_STR_MODUL[Modulate], FreqKHz]));
 
-        WaitMS(100);
+        WaitMS(1000);
 
         {$IFDEF DEBUG_emu}
         if Modulate = mtAM then
@@ -190,7 +193,8 @@ begin
           LevelsMeasured[iBand, iFreq]:= -5500 + Random(500) - 250
         end;
         {$ELSE}
-        InternalCheck(Radio.ReadLevel(LevelsMeasured[iBand, iFreq], Modulate, DummyHint),  '读取电平值失败');
+        InternalCheck(Radio.ReadLevel(LevelsMeasured[iBand, iFreq], Modulate),  '读取电平值失败');
+//        InternalCheck(Radio.ReadLevel(LevelsMeasured[iBand, iFreq], Modulate, DummyHint),  '读取电平值失败');
         {$ENDIF}
         Log(Format('      %6.0f @%.3f MHz', [LevelsMeasured[iBand, iFreq], FreqKHz / 1000]));
 

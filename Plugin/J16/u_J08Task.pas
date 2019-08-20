@@ -4,7 +4,7 @@ interface
 uses
   Classes, SysUtils, StrUtils, Windows, Forms, WinSock, IniFiles,
    u_J08WeakGlobal,  u_J08TaskIntf,  CnRS232,
-  PlumTickIntAverager{$IFDEF DEBUG}, CnDebug{$ENDIF}, SPComm, PlumUtils,
+  PlumTickIntAverager{$IFDEF DEBUG}, CnDebug{$ENDIF}, PlumUtils,
   u_ExamineGlobal;
 type
   TJ08Receiver = Class;
@@ -178,7 +178,7 @@ type
     End;
   {$ENDREGION}
   Private
-    FParser           : TJ08RawParser;
+    FParser           : TRawParser;
     FRaw             : AnsiString;
     FWishRawDataCount: Cardinal;
 
@@ -336,7 +336,7 @@ var
   L_PortName: String;
 begin
   inherited;
-  FParser           := TJ08RawParser.Create(Self);
+  FParser           := self.GetParserClass().Create(Self);
   FAMData:= TAMData.Create;
   FFMData:= TFMData.Create;
   FScanData:= TScanData.Create;
@@ -379,6 +379,7 @@ begin
 //    FRS232Opened:= False;
 //  end;
 //  FRS232.Free;
+  g_RS232.OnReceiveData:= Nil;
   FScanData:= Nil;
   FFMData:= Nil;
   FAMData:= Nil;
@@ -901,6 +902,7 @@ var
 begin
 //  OutputDebugString('!!!Report Received!!!');
   L_Len:= Length(AData);
+
   case L_Len of
     22:
     begin
@@ -944,6 +946,7 @@ begin
     28:
     begin
       L_PFM:= PFMReportRec(@AData[1]);
+
       if (L_PFM.FrameStart = $7B) and (L_PFM.FrameLen = 28) and (L_PFM.FrameEnd = $7D) then
       begin
         FModuType:= mtFM;
@@ -1840,6 +1843,8 @@ begin
   inherited Create;
   FCtrl:= ACtrl;
 end;
+
+
 
 
 class function TRawParser.PopBuf(const ALen: Cardinal;

@@ -42,7 +42,7 @@ procedure TLevelWithoutFilterMeasure.DoProcess;
 ----------------------------------------------------------------------------}
 const
   CONST_MODULS: Array[0..1] of TJ08_ModuType = (mtAM, mtFM);
-  CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 90000);
+  CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 98000);
   CONST_TEST_LEVELS: Array[0..21] of Integer = (0, -10, -20, -30, -40, -50, -60,
         -70, -80, -90, -100, -100, -90, -80, -70, -60, -50, -40, -30, -20, -10, 0);
 var
@@ -53,6 +53,7 @@ var
   Radio: IJ08Receiver;
   Calibrator: ISlopeCalibrate;
   bid, pid, sid: integer;
+  LevelRead: Double;
 var
   LevelsMeasured: Array[0..1] of Array of Single;
 
@@ -116,8 +117,11 @@ begin
     if not Radio.ReceiverTrunedOn then
       Radio.OpenReceiver;
     Calibrator.SetCoeffValid( True );
+    WaitMS(100);
     Calibrator.LevelDataFormat( 1 );
-    InternalCheck(Radio.SetHiGain(damAuto, CONST_AMP_STATES[j]), '设置自动增益模式失败');
+    WaitMS(100);
+    InternalCheck(Radio.SetHiGain(damAuto, dmmDirect), '设置自动增益模式失败');
+    WaitMS(100);
     {$ENDIF}
 
     Log('打开接收机,并设置为自动切换模式,上报校准后数据');
@@ -130,8 +134,9 @@ begin
       {$ENDIF}
       Log(Format('信号源输出 %.0fMHz', [CONST_MODULS_FREQS[i] / 1000]));
 
+      WaitMS(200);
       {$IFNDEF Debug_Emu}
-      InternalCheck(Radio.SetFrequency(CONST_MODULS[i], CONST_MODULS_FREQS[i]),
+      InternalCheck(Radio.SetFrequency(CONST_MODULS[i], CONST_MODULS_FREQS[i] * 1000),
             '设置频率失败');
       {$ENDIF}
 
@@ -148,10 +153,10 @@ begin
             continue;
         end;
         {$IFNDEF Debug_Emu}
-        SG.SetLevelDbm(CONST_TEST_LEVES[k] + InsLost);
+        SG.SetLevelDbm(CONST_TEST_LEVELS[k] + InsLost);
         {$ENDIF}
 
-        WaitMS(100);
+        WaitMS(1000);
 
         if CONST_MODULS[i] = mtAM then
         begin
@@ -173,7 +178,9 @@ begin
         {$IFDEF DEBUG_emu}
         LevelsMeasured[i, k]:= CONST_TEST_LEVELS[k] * 9 + 34 + Random(10) - 5;
         {$ELSE}
-        InternalCheck(Radio.ReadLevel(LevelsMeasured[i, k], CONST_MODULS[i]),  '读取电平值失败');
+
+        InternalCheck(Radio.ReadLevel(LevelRead, CONST_MODULS[i]),  '读取电平值失败');
+        LevelsMeasured[i, k]:= LevelRead;
         {$ENDIF}
         Log(Format('      %6.0f @%5d dBm', [LevelsMeasured[i, k], CONST_TEST_LEVELS[k]]));
 

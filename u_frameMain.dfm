@@ -3,39 +3,34 @@ inherited frameMain: TframeMain
   ShowHint = True
   object Splitter1: TSplitter [0]
     Left = -119
-    Top = 95
-    Height = 190
+    Top = 76
+    Height = 209
     Align = alRight
     ExplicitLeft = 432
     ExplicitTop = 192
     ExplicitHeight = 100
   end
   inherited ToolBar: TToolBar
-    Height = 38
     TabOrder = 3
-    inherited tblUartParam: TToolButton
-      Left = 0
-      Top = 19
-    end
     object ToolButton2: TToolButton
-      Left = 59
-      Top = 19
+      Left = 266
+      Top = 0
       Caption = #34920#26684#30446#24405
       ImageIndex = 0
       Style = tbsTextButton
       OnClick = ToolButton2Click
     end
     object ToolButton3: TToolButton
-      Left = 123
-      Top = 19
+      Left = 330
+      Top = 0
       Caption = #26085#24535#30446#24405
       ImageIndex = 1
       Style = tbsTextButton
       OnClick = ToolButton3Click
     end
     object ToolButton4: TToolButton
-      Left = 187
-      Top = 19
+      Left = 394
+      Top = 0
       Caption = #21319#32423#27169#26495
       ImageIndex = 2
       Style = tbsTextButton
@@ -45,15 +40,15 @@ inherited frameMain: TframeMain
   end
   object Panel1: TPanel [3]
     Left = 0
-    Top = 95
+    Top = 76
     Width = 190
-    Height = 190
+    Height = 209
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object Splitter2: TSplitter
       Left = 0
-      Top = 95
+      Top = 114
       Width = 190
       Height = 3
       Cursor = crVSplit
@@ -65,7 +60,7 @@ inherited frameMain: TframeMain
       Left = 0
       Top = 0
       Width = 190
-      Height = 95
+      Height = 114
       Align = alClient
       TabOrder = 0
       ExplicitWidth = 190
@@ -86,7 +81,7 @@ inherited frameMain: TframeMain
     end
     object pnlBatchTest: TPanel
       Left = 0
-      Top = 98
+      Top = 117
       Width = 190
       Height = 92
       Align = alBottom
@@ -172,18 +167,20 @@ inherited frameMain: TframeMain
   end
   object Memo1: TMemo [4]
     Left = -116
-    Top = 95
+    Top = 76
     Width = 567
-    Height = 190
+    Height = 209
     Align = alRight
     ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 1
     OnDblClick = Memo1DblClick
+    ExplicitTop = 95
+    ExplicitHeight = 190
   end
   object ToolBar1: TToolBar [5]
     Left = 0
-    Top = 38
+    Top = 19
     Width = 451
     Height = 57
     ButtonHeight = 57
@@ -195,5 +192,6 @@ inherited frameMain: TframeMain
     ParentColor = False
     TabOrder = 2
     Transparent = True
+    ExplicitTop = 38
   end
 end

@@ -24,7 +24,7 @@ uses
 procedure TSlopeCalibrateMeasure.DoProcess;
 const
   CONST_MODULS: Array[0..1] of TJ08_ModuType = (mtAM, mtFM);
-  CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 90000);
+  CONST_MODULS_FREQS: Array[0..1] of Integer = (15000, 98000);
   CONST_AMP_STATES: Array[0..2] of TJ08_DevManualMode = (dmmAttent, dmmDirect, dmmAmpli );
   CONST_LEVELS_PER_MODE: Array[0..2] of Array[0..1] of Integer = (
     (-10, -30),
@@ -49,14 +49,14 @@ var
     SetLength(Coffs2Write, Length(CoeffSrc));
     for i := 0 to Length(CoeffSrc) - 1 do
     begin
-      Coffs2Write[i, 0, 0]:= CoeffSrc[0, 2].PrimaryCoeff;
-      Coffs2Write[i, 0, 1]:= CoeffSrc[0, 2].ConstantTerm;
+      Coffs2Write[i, 0, 0]:= CoeffSrc[i, 2].PrimaryCoeff;
+      Coffs2Write[i, 0, 1]:= CoeffSrc[i, 2].ConstantTerm;
 
-      Coffs2Write[i, 1, 0]:= CoeffSrc[0, 1].PrimaryCoeff;
-      Coffs2Write[i, 1, 1]:= CoeffSrc[0, 1].ConstantTerm;
+      Coffs2Write[i, 1, 0]:= CoeffSrc[i, 1].PrimaryCoeff;
+      Coffs2Write[i, 1, 1]:= CoeffSrc[i, 1].ConstantTerm;
 
-      Coffs2Write[i, 2, 0]:= CoeffSrc[0, 0].PrimaryCoeff;
-      Coffs2Write[i, 2, 1]:= CoeffSrc[0, 0].ConstantTerm;
+      Coffs2Write[i, 2, 0]:= CoeffSrc[i, 0].PrimaryCoeff;
+      Coffs2Write[i, 2, 1]:= CoeffSrc[i, 0].ConstantTerm;
     end;
   end;
 
@@ -84,6 +84,7 @@ var
 var
   CurrStep, TotalStep: Integer;
   InsLost: Double;
+  LevelRead: Double;
 begin
 //  inherited;
   CurrStep:= 0;
@@ -97,6 +98,7 @@ begin
  //------------------
  //初始化设备
  //------------------
+
 
   Radio:=  TJ16Receiver.Create;
   Calibrator:= Radio as ISlopeCalibrate;
@@ -113,6 +115,7 @@ begin
 
     if not Radio.ReceiverTrunedOn then
       Radio.OpenReceiver;
+//    WaitMS(100000);
     Calibrator.SetCoeffValid(False);
     Calibrator.LevelDataFormat(0);
     {$ENDIF}
@@ -187,8 +190,9 @@ begin
       {$ENDIF}
       Log(Format('信号源输出 %.0fMHz', [CONST_MODULS_FREQS[i] / 1000]));
 
+      WaitMS(200);
       {$IFNDEF Debug_Emu}
-      InternalCheck(Radio.SetFrequency(CONST_MODULS[i], CONST_MODULS_FREQS[i]),
+      InternalCheck(Radio.SetFrequency(CONST_MODULS[i], CONST_MODULS_FREQS[i] * 1000),
             '设置频率失败');
       {$ENDIF}
 
@@ -203,22 +207,27 @@ begin
         if CONST_AMP_STATES[j] = dmmAttent then
           WaitMS(500);
 
-        Log(Format('接收机增益模式: %s', [CONST_STR_DEVMANUALMODE[CONST_AMP_STATES[j]]]));
+        Log(Format('------%s------', [CONST_STR_DEVMANUALMODE[CONST_AMP_STATES[j]]]));
 
         for k := 0 to Length(CONST_LEVELS_PER_MODE[j]) - 1 do
         begin
           {$IFNDEF Debug_Emu}
           SG.SetLevelDbm(CONST_LEVELS_PER_MODE[j, k] + InsLost);
           {$ENDIF}
-          Log(Format('信号源电平设置: %d dBm', [CONST_LEVELS_PER_MODE[j, k]]));
-          WaitMS(100);
+
+          WaitMS(1000);
+          if (CONST_MODULS[i]) = mtFM then
+            WaitMS(1000);
           {$IFDEF DEBUG}
           //InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], mtAM, L_DummyHint),  '读取电平值失败');
           //使用预置数模拟
           {$ELSE}
-          InternalCheck(Radio.ReadLevel(SampledLevels[i, j, k], CONST_MODULS[i]),  '读取电平值失败');
+
+          InternalCheck(Radio.ReadLevel(LevelRead, CONST_MODULS[i]),  '读取电平值失败');
+          SampledLevels[i, j, k]:= LevelRead;
           {$ENDIF}
-          Log(Format('读取到接收机电平值: %.0f', [SampledLevels[i, j, k]]));
+//          Log(Format('信号源电平设置: %d dBm', []));
+          Log(Format('   %5.0f @ %3d dBm', [SampledLevels[i, j, k], CONST_LEVELS_PER_MODE[j, k]]));
 
           if k = 0 then
           begin
@@ -240,11 +249,14 @@ begin
 
     //curr step count value should be 12 now
     //计算系数
-    CalcuSlopeCoff(CoeffSrc[i], CONST_YXRATIO[i]);
-    Log('计算系数完成:' );
-    for m := 0 to Length(CoeffSrc[i]) - 1 do
+    for i:= 0 to Length(CoeffSrc) - 1 do
     begin
-      Log(Format('      [%d]  :%.8f, %.8f', [m + 1, CoeffSrc[i, m].PrimaryCoeff, CoeffSrc[i, m].ConstantTerm]));
+      CalcuSlopeCoff(CoeffSrc[i], CONST_YXRATIO[i]);
+      Log('计算系数完成:' );
+      for m := 0 to Length(CoeffSrc[i]) - 1 do
+      begin
+        Log(Format('      [%d]  :%.8f, %.8f', [m + 1, CoeffSrc[i, m].PrimaryCoeff, CoeffSrc[i, m].ConstantTerm]));
+      end;
     end;
 
     Inc(CurrStep);
@@ -267,7 +279,7 @@ begin
     Calibrator.SetCoeffValid(True);
     WaitMS(10);
     Calibrator.LevelDataFormat(1);
-    WaitMS(10);
+    WaitMS(100);
 
     Log('设置系数完成,准备校验....');
     if Calibrator.QueryCoeffInfo(ReadBackCoff) then

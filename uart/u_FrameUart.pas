@@ -37,7 +37,7 @@ type
   public
     { Public declarations }
     Constructor Create(AOwner: TComponent);Override;
-    Procedure ProcessBuffer(var Buf: AnsiString); Virtual; Abstract;
+    Procedure ProcessBuffer(var Buf: AnsiString); Virtual;
     Property RS232: TCnRS232 Read FRS232;
   end;
 
@@ -173,6 +173,11 @@ begin
   ProcessBuffer(FBuff);
 end;
 
+
+procedure TframeUart.ProcessBuffer(var Buf: AnsiString);
+begin
+
+end;
 
 procedure TframeUart.UpdateStatusText;
 var

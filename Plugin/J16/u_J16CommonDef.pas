@@ -28,4 +28,7 @@ uses
   begin
     Result:= _CnExtractFilePath(ParamStr(0)) + 'Excel\'+ 'Êý¾Ý\';
   end;
+
+
+  
 end.

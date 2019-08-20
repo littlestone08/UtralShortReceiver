@@ -66,13 +66,8 @@ begin
 //  begin
 //    Cndebugger.LogMsg(Format('%d , %d, %d, %d', [R.Left, R.Right, R.Bottom, R.Top]));
 //  end;
-  {$IFDEF RELEASE}
-  SpeedButton2.Visible:= False;
-  SpeedButton3.Visible:= False;
-  SpeedButton5.Visible:= False;
-  {$ELSE}
 
-  {$ENDIF}
+  self.RS232.CommConfig.BaudRate:= 19200;
   if IsDevloper then ToolButton4.Visible:= True;
   edtSN.Text:= FormatDateTime('YYMM', Now);
 end;

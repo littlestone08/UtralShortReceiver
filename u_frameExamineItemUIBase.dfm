@@ -51,6 +51,7 @@ object FrameCustomExamineItemUI: TFrameCustomExamineItemUI
       Top = 13
       Width = 76
       Height = 21
+      ImeName = #20013#25991'('#31616#20307') - '#26497#28857#20116#31508
       TabOrder = 0
       Text = '0'
       TextType = FloatText

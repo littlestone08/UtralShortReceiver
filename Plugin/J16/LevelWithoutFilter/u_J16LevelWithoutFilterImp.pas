@@ -91,9 +91,11 @@ var
   end;
 var
   i, k: Integer;
+  StableDelay: integer;
 begin
   Log('------无滤波器电平读数测试(自动切换)------------');
 
+  get_UI.SyncUI(@StableDelay);
   
   CurrStep:= 0;
   TotalStep:= 43;
@@ -116,11 +118,17 @@ begin
 
     if not Radio.ReceiverTrunedOn then
       Radio.OpenReceiver;
+
+    WaitMS(100);
+    InternalCheck(Radio.SetHiGain(damAuto, dmmAttent), '设置自动增益模式失败');
+
+    WaitMS(100);
+    InternalCheck(Radio.SetHiGain(damAuto, dmmAttent), '设置自动增益模式失败');
+
     Calibrator.SetCoeffValid( True );
     WaitMS(100);
     Calibrator.LevelDataFormat( 1 );
-    WaitMS(100);
-    InternalCheck(Radio.SetHiGain(damAuto, dmmDirect), '设置自动增益模式失败');
+
     WaitMS(100);
     {$ENDIF}
 
@@ -156,8 +164,7 @@ begin
         SG.SetLevelDbm(CONST_TEST_LEVELS[k] + InsLost);
         {$ENDIF}
 
-        WaitMS(1000);
-
+        WaitMS(StableDelay);
         if CONST_MODULS[i] = mtAM then
         begin
           if Radio.AMData.DevManualMode = dmmAttent then

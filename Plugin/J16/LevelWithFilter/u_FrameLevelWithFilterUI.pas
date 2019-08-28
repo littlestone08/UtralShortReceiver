@@ -10,6 +10,8 @@ type
   TLevelWithFilterUI = class(TFrameCustomExamineItemUI)
     Button1: TButton;
     RadioGroup1: TRadioGroup;
+    edtLevelStableDelay: TCnEdit;
+    Label2: TLabel;
     procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
@@ -35,9 +37,18 @@ begin
 end;
 
 procedure TLevelWithFilterUI.SyncUI(Ptr: Pointer);
+var
+  Value: Integer;
 begin
-  inherited;
-  PLevelWithFilterOption(Ptr)^.ManualMode:= self.RadioGroup1.ItemIndex;
+  if Ptr <> Nil then
+  begin
+    PLevelWithFilterOption(Ptr)^.ManualMode:= self.RadioGroup1.ItemIndex;
+    Value:= edtLevelStableDelay.value;
+    if Value = 0 then
+      Value:= 1000;
+    edtLevelStableDelay.Text:= IntToStr(Value);
+    PLevelWithFilterOption(Ptr)^.StableDelay:= Value;
+  end;
 end;
 
 end.

@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="70">
+    <Units Count="71">
       <Unit0>
         <Filename Value="RDA1005L.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -491,11 +491,17 @@
       </Unit68>
       <Unit69>
         <Filename Value="..\..\LevelWithFilter\u_J16LevelWithFilterImp.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit69>
+      <Unit70>
+        <Filename Value="d:\CodeGear\XlsReadWriteII5\Source\xpgPXMLUtils.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit70>
     </Units>
     <JumpHistory Count="1">
       <Position1>

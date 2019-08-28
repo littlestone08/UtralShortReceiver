@@ -85,6 +85,7 @@ var
   CurrStep, TotalStep: Integer;
   InsLost: Double;
   LevelRead: Double;
+  StableDelay: Integer;
 begin
 //  inherited;
   CurrStep:= 0;
@@ -98,7 +99,7 @@ begin
  //------------------
  //初始化设备
  //------------------
-
+  get_UI.SyncUI(@StableDelay);
 
   Radio:=  TJ16Receiver.Create;
   Calibrator:= Radio as ISlopeCalibrate;
@@ -215,7 +216,7 @@ begin
           SG.SetLevelDbm(CONST_LEVELS_PER_MODE[j, k] + InsLost);
           {$ENDIF}
 
-          WaitMS(1000);
+          WaitMS(StableDelay);
           if (CONST_MODULS[i]) = mtFM then
             WaitMS(1000);
           {$IFDEF DEBUG}

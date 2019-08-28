@@ -15,6 +15,7 @@ type
   PLevelWithFilterOption = ^TLevelWithFilterOption;
   TLevelWithFilterOption = Record
     ManualMode: Integer;
+    StableDelay: integer;
   End;
 //type
 //  TSlopeCalibrateSetting = Record

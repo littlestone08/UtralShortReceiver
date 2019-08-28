@@ -176,9 +176,8 @@ begin
               '设置频率失败');
         {$ENDIF}
 
-        //Log(Format('接收机设置: %s  %d KHz', [CONST_STR_MODUL[Modulate], FreqKHz]));
 
-        WaitMS(1000);
+        WaitMS(self.FOption.StableDelay);
 
         {$IFDEF DEBUG_emu}
         if Modulate = mtAM then

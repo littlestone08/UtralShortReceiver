@@ -19,7 +19,6 @@ uses
   u_dmUpgrade in 'Upgrader\u_dmUpgrade.pas' {dmUpgrade: TDataModule},
   u_Version in 'Upgrader\u_Version.pas',
   u_frameExamineItemUIBase in 'u_frameExamineItemUIBase.pas' {FrameCustomExamineItemUI: TFrame},
-  u_frameExamineItemUI in 'u_frameExamineItemUI.pas' {ExamineItemDefaultControl: TFrame},
   u_FreqCtrl in 'u_FreqCtrl.pas',
   u_ExamineReg in 'u_ExamineReg.pas',
   u_J08Task in 'Plugin\J16\u_J08Task.pas',

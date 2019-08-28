@@ -1,8 +1,8 @@
 inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
-  Height = 77
-  ExplicitHeight = 77
+  Height = 86
+  ExplicitHeight = 86
   inherited Panel1: TPanel
-    Height = 77
+    Height = 86
     ExplicitHeight = 77
     inherited Label1: TLabel
       Top = 32
@@ -15,6 +15,13 @@ inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
     inherited Gauge1: TGauge
       Top = 29
       ExplicitTop = 29
+    end
+    object Label2: TLabel [3]
+      Left = 171
+      Top = 56
+      Width = 97
+      Height = 13
+      Caption = #35835#25968#31283#23450#26102#38388'(ms):'
     end
     inherited edInlineInsLoss: TCnEdit
       Top = 29
@@ -29,6 +36,17 @@ inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
       Caption = #32479#35745#25968#25454
       TabOrder = 2
       OnClick = Button1Click
+    end
+    object edtLevelStableDelay: TCnEdit
+      Left = 269
+      Top = 53
+      Width = 76
+      Height = 21
+      ImeMode = imClose
+      ImeName = #20013#25991'('#31616#20307') - '#26497#28857#20116#31508
+      TabOrder = 3
+      Text = '1000'
+      TextType = FloatText
     end
   end
 end

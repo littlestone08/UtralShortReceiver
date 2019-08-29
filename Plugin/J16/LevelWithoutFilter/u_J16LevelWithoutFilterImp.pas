@@ -266,11 +266,11 @@ begin
       wb:= TXLSReadWriteII5.Create(Nil);
       try
         StatXLSFileName:=  TextDir_NoFilter() + '\数据统计.xlsx';
-        if FileExists(StatXLSFileName) then
-        begin
-          wb.LoadFromFile(StatXLSFilename);
-        end
-        else
+//        if FileExists(StatXLSFileName) then
+//        begin
+//          wb.LoadFromFile(StatXLSFilename);
+//        end
+//        else
         begin
           rs:= TResourceStream.Create(HInstance, 'StatTemplate', 'MYFILE');
           try
@@ -305,6 +305,7 @@ begin
           ASheet.AsString[iCol, iRow]:= SN;
           for iLine := 0 to Length(Level[1]) - 3 do
           begin
+            ASheet.AsString[iCol, iRow + iLine + 1]:= '0';
             ASheet.AsInteger[iCol, iRow + iLine + 1]:= Level[1, iLine];
           end;
           //RefStrToColRow()
@@ -344,7 +345,7 @@ begin
         end;
 
         wb.SaveToFile(StatXLSFileName);
-        Log('统计完成');
+        Log('统计完成: ' + StatXLSFileName);
       finally
         wb.Free;
       end;

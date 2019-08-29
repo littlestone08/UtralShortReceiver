@@ -274,11 +274,11 @@ begin
         wb:= TXLSReadWriteII5.Create(Nil);
         try
           StatXLSFileName:=  TextDir_NoFilter() + '\数据统计.xlsx';
-          if FileExists(StatXLSFileName) then
-          begin
-            wb.LoadFromFile(StatXLSFilename);
-          end
-          else
+//          if FileExists(StatXLSFileName) then
+//          begin
+//            wb.LoadFromFile(StatXLSFilename);
+//          end
+//          else
           begin
             rs:= TResourceStream.Create(HInstance, 'StatTemplate', 'MYFILE');
             try

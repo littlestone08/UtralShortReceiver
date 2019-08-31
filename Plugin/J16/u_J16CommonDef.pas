@@ -17,6 +17,13 @@ type
     ManualMode: Integer;
     StableDelay: integer;
   End;
+  
+  PLevelWithoutFilterOption = ^TLevelWithoutFilterOption;
+  TLevelWithoutFilterOption = Record
+    StableDelay: Integer;
+    FMThreshold: Array[0..3] of Integer;
+    AMThreshold: Array[0..3] of Integer;
+  End;
 //type
 //  TSlopeCalibrateSetting = Record
 //    InsLoss: Double;

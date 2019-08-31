@@ -124,7 +124,7 @@ type
     Procedure StartPort;
     Procedure StopPort;
 
-    {$IFDEF DEBUG}
+//    {$IFDEF DEBUG}
     Procedure Internal_SetFrequency(ModuType: TJ08_ModuType; ValueHz: Cardinal);
     Procedure Internal_SetTEF6901Volumn(Value: Byte);
     Procedure internal_SetFMDepthCalcTime(Value: WORD = $1FFF);
@@ -159,7 +159,7 @@ type
     Procedure Internal_SetIFFilerOffset(Value: Smallint = 0);
     function Internal_WriteFlash(AStream: TMemoryStream; MaxTryTimes: Integer; TimeOutMs: Integer): Boolean;
     function Internal_ReadFlash(AStream: TMemoryStream): Boolean;
-    {$ENDIF}
+//    {$ENDIF}
 
     function get_AmpMode: TJ08_DevAmpMode;
     function get_ManualMode(Modutype: TJ08_ModuType): TJ08_DevManualMode;

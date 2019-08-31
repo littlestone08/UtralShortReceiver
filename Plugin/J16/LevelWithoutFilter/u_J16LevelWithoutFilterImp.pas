@@ -91,11 +91,11 @@ var
   end;
 var
   i, k: Integer;
-  StableDelay: integer;
+  UIOption: TLevelWithoutFilterOption;
 begin
   Log('------无滤波器电平读数测试(自动切换)------------');
 
-  get_UI.SyncUI(@StableDelay);
+  get_UI.SyncUI(@UIOption);
   
   CurrStep:= 0;
   TotalStep:= 43;
@@ -115,12 +115,17 @@ begin
       LoadInstrumentParam(bid, pid, sid);
       Connnect(bid, pid, sid);
     end;
-
+    {$ENDIF}
+    
     if not Radio.ReceiverTrunedOn then
       Radio.OpenReceiver;
 
     WaitMS(100);
-    InternalCheck(Radio.SetHiGain(damAuto, dmmAttent), '设置自动增益模式失败');
+    Radio.Internal_SetFMThreshold(UIOption.FMThreshold[0], UIOption.FMThreshold[1],
+                    UIOption.FMThreshold[2], UIOption.FMThreshold[3]);
+    WaitMS(100);
+    Radio.Internal_SetAMThreshold(UIOption.AMThreshold[0], UIOption.AMThreshold[1],
+                  UIOption.AMThreshold[2], UIOption.AMThreshold[3]);
 
     WaitMS(100);
     InternalCheck(Radio.SetHiGain(damAuto, dmmAttent), '设置自动增益模式失败');
@@ -130,7 +135,7 @@ begin
     Calibrator.LevelDataFormat( 1 );
 
     WaitMS(100);
-    {$ENDIF}
+
 
     Log('打开接收机,并设置为自动切换模式,上报校准后数据');
 
@@ -164,7 +169,7 @@ begin
         SG.SetLevelDbm(CONST_TEST_LEVELS[k] + InsLost);
         {$ENDIF}
 
-        WaitMS(StableDelay);
+        WaitMS(UIOption.StableDelay);
         if CONST_MODULS[i] = mtAM then
         begin
           if Radio.AMData.DevManualMode = dmmAttent then

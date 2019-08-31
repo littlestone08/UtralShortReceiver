@@ -1213,7 +1213,7 @@ var
   L_Len: Byte;
   L_Tick: Cardinal;
 begin
-
+  {$IFNDEF Debug_Emu}
   if g_RS232.Connected then
   begin
     L_Len:= Byte(Length(CmdStr) + 3);
@@ -1242,6 +1242,7 @@ begin
   begin
     Raise Exception.Create('´®¿ÚÎ´´ò¿ª');
   end;
+  {$ENDIF}
 end;
 
 { TUartCommCtrl1.TAMData }

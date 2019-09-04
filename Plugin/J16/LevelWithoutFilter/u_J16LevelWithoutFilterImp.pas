@@ -299,9 +299,11 @@ begin
           //Level[0]数组填充到B2开始的列,B1为SN号
 
           iRow:= 0;
+          ASheet.ClearCell(iCol, iRow);
           ASheet.AsString[iCol, iRow]:= SN;
           for iLine := 0 to Length(Level[0]) - 1  do
           begin
+            ASheet.ClearCell(iCol, iRow + iLine + 1);
             ASheet.AsInteger[iCol, iRow + iLine + 1]:= Level[0, iLine];
           end;
           //Level[1]数组填充到B25开始的列,B24为SN号
@@ -310,7 +312,8 @@ begin
           ASheet.AsString[iCol, iRow]:= SN;
           for iLine := 0 to Length(Level[1]) - 3 do
           begin
-            ASheet.AsString[iCol, iRow + iLine + 1]:= '0';
+            ASheet.ClearCell(iCol, iRow + iLine + 1);
+            //ASheet.AsString[iCol, iRow + iLine + 1]:= '0';
             ASheet.AsInteger[iCol, iRow + iLine + 1]:= Level[1, iLine];
           end;
           //RefStrToColRow()

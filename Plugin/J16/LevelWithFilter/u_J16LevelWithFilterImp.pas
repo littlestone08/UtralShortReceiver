@@ -253,6 +253,7 @@ var
   rs: TResourceStream;
   wb: TXLSReadWriteII5;
   RangeExp: String;
+//  CellType: TXLSCellType;
 var
   iMode: TJ08_DevManualMode;
 begin
@@ -274,11 +275,11 @@ begin
         wb:= TXLSReadWriteII5.Create(Nil);
         try
           StatXLSFileName:=  TextDir_NoFilter() + '\数据统计.xlsx';
-//          if FileExists(StatXLSFileName) then
-//          begin
-//            wb.LoadFromFile(StatXLSFilename);
-//          end
-//          else
+          if FileExists(StatXLSFileName) then
+          begin
+            wb.LoadFromFile(StatXLSFilename);
+          end
+          else
           begin
             rs:= TResourceStream.Create(HInstance, 'StatTemplate', 'MYFILE');
             try
@@ -304,6 +305,7 @@ begin
               iRow:= 46
             else
               iRow:= 91;
+            ASheet.ClearCell(iCol, iRow);
             ASheet.AsString[iCol, iRow]:= SN;
 
             Inc(iRow);
@@ -318,8 +320,18 @@ begin
                   ]);
                 ASheet.AsFormula[iCol, iRow + iLine + 1]:=
                   Format('Max(%s) - Min(%s)', [RangeExp, RangeExp]);
+
+//                CellType:=  ASheet.CellType[iCol, iRow + iLine + 1];
+//                Log(PChar(IntToStr(Integer(CellType))));
+//                ASheet.ClearCell(iCol, iRow + iLine + 1);
+//                CellType:=  ASheet.CellType[iCol, iRow + iLine + 1];
+//                Log(PChar(IntToStr(Integer(CellType))));
+
                 Inc(iRow);
+
               end;
+
+              ASheet.ClearCell(iCol, iRow + iLine + 1);
               ASheet.AsInteger[iCol, iRow + iLine + 1]:= Level[iLine];
             end;
 

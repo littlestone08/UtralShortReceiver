@@ -3,7 +3,7 @@ inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
   ExplicitHeight = 184
   inherited Panel1: TPanel
     Height = 184
-    ExplicitHeight = 86
+    ExplicitHeight = 184
     inherited Label1: TLabel
       Top = 32
       ExplicitTop = 32
@@ -93,7 +93,7 @@ inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
         Width = 52
         Height = 21
         TabOrder = 0
-        Text = '4800'
+        Text = '-4080'
         TextType = IntegerText
       end
       object CnEdit2: TCnEdit
@@ -174,7 +174,7 @@ inherited LevelWithoutFilterUI: TLevelWithoutFilterUI
         Width = 52
         Height = 21
         TabOrder = 1
-        Text = '-246'
+        Text = '-216'
         TextType = IntegerText
       end
       object CnEdit7: TCnEdit
